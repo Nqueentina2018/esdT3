@@ -1,0 +1,42 @@
+{
+    "drink": [
+      {
+        "id": 1,
+        "name": "Signature Milk Tea",
+        "price": 2.50,
+        "imgName": "Signature Milk Tea.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Brown Sugar Milk Tea",
+        "price": 2.90,
+        "imgName": "Brown Sugar Milk Tea.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Belgian Chocolate Smoothie",
+        "price": 3.90,
+        "imgName": "Belgian Chocolate Smoothie.jpg"
+      },
+      {
+        "id": 4,
+        "name": "Strawberry Cheese Tea",
+        "price": 4.90,
+        "imgName": "Strawberry Cheese Tea.jpg"
+      }
+    ],
+    "topping": [
+      {
+        "id": 5,
+        "name": "Pearls",
+        "price": 0.60,
+        "imgName": "Pearls.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Grass Jelly",
+        "price": 0.70,
+        "imgName": "Grass Jelly.jpg"
+      }
+    ]
+  }
