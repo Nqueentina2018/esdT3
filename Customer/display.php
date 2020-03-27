@@ -12,33 +12,50 @@ $dao = new CustDAO();
 // var_dump($_POST);
 
 $customers = $dao->getCust();
+
+if (isset($_POST['id'])){
+    $customer = $dao->getCustByID($id);
+    $result = [
+        'id' => $customer->getId(),
+        'name' => $customer->getName(),
+        'phone' => $customer->getPhone(),
+        'ewallet' => $customer->getEwallet()
+    ];
+}
+else{
+    $customers = $dao->getCust();
+    foreach ($customers as $customer){
+        $result = [
+            'id' => $customer->getId(),
+            'name' => $customer->getName(),
+            'phone' => $customer->getPhone(),
+            'ewallet' => $customer->getEwallet()
+        ];
+    }
+}
+
+// if (!isEmpty($errors)) {
+//     $result = [
+//         "status" => "error",
+//         "message" => $errors
+//         ];
+// }
+// else {
+
+//     // if ( $username==$db_user && $password==$db_pass){
+//     if (empty($errors)){
+
+//         $result = [
+//             'id' => $ewallet
+//         ];
+//     }
+//     else {
+//         $result = ['status' => 'error',
+//                     'message' => $errors];
+//     }
+
+// }
+
+header('Content-Type: application/json');
+echo json_encode($result, JSON_PRETTY_PRINT);
 ?>
-<html>
-<body>
-
-    <h1>Our Customers</h1>
-
-    <table border='1'>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Ewallet</th>
-        </tr>
-
-        <?php
-        foreach($customers as $customer) {
-            // YOUR CODE GOES HERE
-            echo "<tr>
-            <td>{$customer->getId()}</td>
-            <td>{$customer->getName()}</td>
-            <td>{$customer->getPhone()}</td>
-            <td>{$customer->getEwallet()}</td>";
-            echo "</tr>";
-        }
-        ?>
-
-    </table>
-
-</body>
-</html>
