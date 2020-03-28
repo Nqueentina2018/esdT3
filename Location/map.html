@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Tea Shops near you</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bubble Tea Shops near you</h1>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var options = {
+                zoom: 15,
+                center: { lat: 1.297924, lng: 103.849418 }     // Coordinates of SMU SIS
+            }
+
+            var map = new google.maps.Map(document.getElementById('map'), options);// map object
+
+            // Array of markers
+            var markers = [
+                {
+                    coords: { lat: 1.296224, lng: 103.850364 },
+                    content: '<h4>Bubble Tea at LKSCB</h4>'
+                },
+                {
+                    coords: { lat: 1.300426, lng: 103.845149 },
+                    content: '<h4>Bubble Tea at Plaza Singapura</h4>'
+                },
+                {
+                    coords: { lat: 1.301040, lng: 103.838411 },
+                    content: '<h4>Bubble Tea at Orchard Road</h4>'
+                },
+                {
+                    coords: { lat: 1.339390, lng: 103.743255 },
+                    content: '<h4>Bubble Tea at West Gate</h4>'
+                }
+            ];
+
+            for (var i = 0; i < markers.length; i++) {
+                addMarker(markers[i]);
+            }
+
+            function addMarker(properties) {
+                var marker = new google.maps.Marker({
+                    position: properties.coords,
+                    map: map,
+                    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=cafe|FFFF00'
+                });
+
+                // Check for custom icon just in case
+                if (properties.iconImage) {
+                    // Set icon image
+                    marker.setIcon(properties.iconImage)
+                }
+
+                // Check content
+                if (properties.content) {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: properties.content
+                    });
+                    marker.addListener('click', function () {
+                        infoWindow.open(map, marker);
+                    });
+                }
+            }
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdw7w4zD54r-oY-kKR3pM-DeRXFBIKpbA&callback=initMap">
+        </script>
+
+</body>
+
+</html>
