@@ -54,22 +54,8 @@ def add_new_order():
     cid= str(data['cid'])
     status= str(data['status'])
     price= str(data['price'])
-    query = "INSERT INTO order(storeid, cid, status, price) " \      
-            "VALUES(%s,%s, %s, %s)"
-    args = (storeid, cid, status, price)
-    try:
-        db_config = read_db_config()
-        conn = MySQLConnection(**db_config)
- 
-        cursor = conn.cursor()
-        cursor.execute(query, args)
-    conn.commit()
-    except Error as error:
-        print(error)
- 
-    finally:
-        cursor.close()
-        conn.close() 
+    i = insert(order).values(storeid=storeid, cid=cid, status=status, price=price)
+    db.execute(i)
 
 @app.route("order/updateorder" , methods = ['POST'] )
 def update_order():
