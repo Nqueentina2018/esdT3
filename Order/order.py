@@ -51,11 +51,12 @@ def find_by_orderid():
 def add_new_order():
     data = request.get_json()
     storeid= str(data['orderid'])
+    cid= str(data['cid'])
     status= str(data['status'])
     price= str(data['price'])
-    query = "INSERT INTO order(storeid, status, price) " \      
-            "VALUES(%s,%s, %s)"
-    args = (storeid, status, price)
+    query = "INSERT INTO order(storeid, cid, status, price) " \      
+            "VALUES(%s,%s, %s, %s)"
+    args = (storeid, cid, status, price)
     try:
         db_config = read_db_config()
         conn = MySQLConnection(**db_config)
