@@ -8,6 +8,7 @@ app = Flask(__name__)
 import os
 import stripe
 import requests
+customerURL = "http://localhost:5002/customer"
 
 pub_key = 'pk_test_a4WmBvNzgsdxl168Wwu0aGde00kaznh0SL'
 secret_key = 'sk_test_n2Zbe1bhsIhVn7XCpYSIBSK600OHvj08YF'
@@ -30,11 +31,27 @@ def topuppayment():
         description="E-Wallet top up"
     )
 
-    return redirect(url_for('successtopup'))
+    return requests.post(customerURL, json=charge)
 
 @app.route('/successtopup')
 def successtopup():
     return render_template('successtopup.html')
+
+
+@app.route('/payment')
+def receiveOrder():
+    #check if the order contains valid JSON
+    order = None
+    if request.is_json():
+        order = request.get_json()
+    else:
+        order = request.get_data()
+        print("Received an invalid order:")
+        print(order)
+        replymessage = json.dumps({"message": "Order should be in JSON", "data": order}, default=str)
+        return replymessage, 400 # Bad Request
+    
+
 
 if __name__ == '__main__':
     app.run(port=5001,debug=True)
