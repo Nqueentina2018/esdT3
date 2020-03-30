@@ -53,5 +53,19 @@ def ewallet_by_cid():
 
     return jsonify({"message": "Customer not found."}), 404
 
+@app.route("/customer/updatewallet" , methods=['POST'])
+def update_wallet():
+    data = request.get_json()
+    cid= str(data['cid'])
+    newEwalletBalance = str(data['newEwalletBalance'])
+    if (Customer.query.filter_by(cid=cid).first()):
+        customer = Customer.query.filter_by(cid=cid).first()
+        print(newEwalletBalance)
+        customer.ewallet = newEwalletBalance
+        db.session.commit()
+        return jsonify({"message": "Ewallet updated"}) 
+
+    return jsonify({"message": "Customer not found."}), 404
+
 if __name__ == '__main__':
     app.run()
