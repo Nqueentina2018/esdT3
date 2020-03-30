@@ -8,8 +8,10 @@ app = Flask(__name__)
 import os
 import stripe
 import requests
-customerURL = "http://localhost:5002/customer
-ewalletURL = "http://localhost:5002/customer/getewallet"
+import json
+
+updateEwalletURL = "http://localhost/customer/updatewallet"
+newOrderURL = "http://localhost/order/neworder"
 
 pub_key = 'pk_test_a4WmBvNzgsdxl168Wwu0aGde00kaznh0SL'
 secret_key = 'sk_test_n2Zbe1bhsIhVn7XCpYSIBSK600OHvj08YF'
@@ -32,7 +34,19 @@ def topuppayment():
         description="E-Wallet top up"
     )
 
-    return requests.post(customerURL, json=charge)
+    charge = json.dumps(charge)
+    topupAmt = charge['amount']
+
+    customerObject = {
+                        "cid": cid, 
+                        "newEwalletBalance" : newEwalletBalance,
+                        "storeid": sid,
+                        "price": orderAmount,
+                        "status" : "confirmed" 
+                    }
+    
+    return charge
+    #requests.post(customerURL, json=charge)
 
 
 @app.route('/successtopup')
@@ -43,38 +57,49 @@ def successtopup():
 @app.route('/payment', methods=['POST'])
 def receiveOrder():
     #check if the order contains valid JSON
-    order = None
+    payment = None
     if request.is_json():
-        order = request.get_json()
+        payment = request.get_json()
     else:
-        order = request.get_data()
+        payment = request.get_data()
         print("Received an invalid order:")
-        print(order)
-        replymessage = json.dumps({"message": "Order should be in JSON", "data": order}, default=str)
+        print(payment)
+        replymessage = json.dumps({"message": "Order should be in JSON", "data": payment}, default=str)
         return replymessage, 400 # Bad Request
 
-    result = processPayment(order)
+    result = processPayment(payment)
 
     if result['status']:
         return 200
     else:
         return 501
 
-def processPayment(order):
+def processPayment(payment):
 
-    #Get the e balance amount
-    ewallet = request.get(ewalletURL)
-
-    #Get the order total amount
-    orderAmount = order['total']
-
+    #UI is sending sending storeid, ewallet balance, order amount and customer id
+    cid = str(payment['cid'])
+    orderAmount = str(payment['totalAmt'])
+    ewalletBalance = str(payment['eWallet'])
+    sid = str(payment['sid'])
+    
     #Check if the balance is enough to pay
-    if ewallet < orderAmount:
+    if ewalletBalance < orderAmount:
         resultstatus = 501
-        messagestatus = "Ewallet amount is not enough. Please top-up."
+        messagestatus = "Insufficient E-Wallet Balance! Please top-up."
 
     else:
-        newEwalletBalance = ewallet - orderAmount
+        newEwalletBalance = ewalletBalance - orderAmount        
+        customerObject = {
+                        "cid": cid, 
+                        "newEwalletBalance" : newEwalletBalance,
+                        "storeid": sid,
+                        "price": orderAmount,
+                        "status" : "confirmed" 
+                        }
+        customerObject = json.dumps(customerObject)
+
+        requests.post(updateEwalletURL, json = customerObject)
+        requests.post(newOrderURL, json = customerObject)
         resultstatus = 200
         messagestatus = "Payment Successful!"
 
@@ -83,4 +108,4 @@ def processPayment(order):
 
 
 if __name__ == '__main__':
-    app.run(port=5001,debug=True)
+    app.run(debug=True)
