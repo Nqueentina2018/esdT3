@@ -7,6 +7,8 @@ app = Flask(__name__)
 
 import os
 import stripe
+import requests
+
 pub_key = 'pk_test_a4WmBvNzgsdxl168Wwu0aGde00kaznh0SL'
 secret_key = 'sk_test_n2Zbe1bhsIhVn7XCpYSIBSK600OHvj08YF'
 
