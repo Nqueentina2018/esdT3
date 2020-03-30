@@ -56,6 +56,7 @@ def add_new_order():
     price= str(data['price'])
     i = insert(order).values(storeid=storeid, cid=cid, status=status, price=price)
     db.execute(i)
+    return jsonify(order.json())
 
 @app.route("order/updateorder" , methods = ['POST'] )
 def update_order():
@@ -67,7 +68,7 @@ def update_order():
         print(newStatus)
         order.status = newStatus
         db.session.commit()
-        return jsonify({"message": "Status updated"}) 
+        return jsonify({"message": "Status updated"})
 
     return jsonify({"message": "Order not found."}), 404
 
