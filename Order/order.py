@@ -47,7 +47,7 @@ def find_by_orderid():
 
     return jsonify({"message": "Order not found."}), 404
 
-@app.route("/neworder" , methods = ['POST'] )
+@app.route("order/neworder" , methods = ['POST'] )
 def add_new_order():
     data = request.get_json()
     storeid= str(data['orderid'])
@@ -70,7 +70,7 @@ def add_new_order():
         cursor.close()
         conn.close() 
 
-@app.route("/updateorder" , methods = ['POST'] )
+@app.route("order/updateorder" , methods = ['POST'] )
 def update_order():
     data = request.get_json()
     orderid= str(data['orderid'])
@@ -81,6 +81,25 @@ def update_order():
         order.status = newStatus
         db.session.commit()
         return jsonify({"message": "Status updated"}) 
+
+    return jsonify({"message": "Order not found."}), 404
+
+@app.route("/order/status" , methods = ['POST'] )
+def order_by_status():
+    data = request.get_json()
+    status= str(data['status'])
+    if (Order.query.filter_by(status=status).all()):
+        orders = Order.query.filter_by(status=status).all()
+        return jsonify({"orders": [order.json() for order in orders]})
+     return jsonify({"message": "Order not found."}), 404
+
+@app.route("/order/customerdetails" , methods = ['POST'] )
+def find_cid_by_orderid():
+    data = request.get_json()
+    orderid= str(data['orderid'])
+    if (Order.query.filter_by(orderid=orderid).first()):
+        order = Order.query.filter_by(orderid=orderid).first()
+        return order.cid
 
     return jsonify({"message": "Order not found."}), 404
 
