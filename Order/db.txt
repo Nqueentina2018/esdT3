@@ -1,0 +1,11 @@
+create table order
+(orderid int not null identity(1,1) primary key,
+ storeid int not null,
+ cid int not null,
+ status varchar(15) not null,
+ price double not null);
+
+ INSERT INTO `order` (`storeid`) VALUES
+(1, 1, "Delivered", 20),
+(2, 1, "Pending", 10),
+(3. 3, "Pending", 25);

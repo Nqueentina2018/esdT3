@@ -3,8 +3,8 @@ import os
 import csv
 
 # Communication pattern:
-# Use a message-broker with 'direct' exchange to enable interaction, 'topic' will be used
-# to send message to the specific queue where the customer UI service will pick up the message 
+# Use a message-broker with 'direct' exchange to enable interaction
+# send message to the specific queue where the customer UI service will pick up the message 
 import pika
 
 hostname = "localhost" # default hostname
