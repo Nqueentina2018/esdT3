@@ -57,8 +57,9 @@ def successtopup():
 @app.route('/payment', methods=['POST'])
 def receiveOrder():
     #check if the order contains valid JSON
+
     payment = None
-    if request.is_json():
+    if request.get_json():
         payment = request.get_json()
     else:
         payment = request.get_data()
@@ -69,18 +70,18 @@ def receiveOrder():
 
     result = processPayment(payment)
 
-    if result['status']:
-        return 200
+    if result['status'] == 200:
+        return result['message'] , result['object']
     else:
-        return 501
+        return result['message']
 
 def processPayment(payment):
 
     #UI is sending sending storeid, ewallet balance, order amount and customer id
-    cid = str(payment['cid'])
-    orderAmount = str(payment['totalAmt'])
-    ewalletBalance = str(payment['eWallet'])
-    sid = str(payment['sid'])
+    cid = payment['cid']
+    orderAmount = payment['totalAmt']
+    ewalletBalance = payment['eWallet']
+    sid = payment['sid']
     
     #Check if the balance is enough to pay
     if ewalletBalance < orderAmount:
@@ -96,14 +97,13 @@ def processPayment(payment):
                         "price": orderAmount,
                         "status" : "confirmed" 
                         }
-        customerObject = json.dumps(customerObject)
-
+        # customerObject = json.dumps(customerObject) , dumps makes it into json string so try not to use
         requests.post(updateEwalletURL, json = customerObject)
-        requests.post(newOrderURL, json = customerObject)
+        # requests.post(newOrderURL, json = customerObject)
         resultstatus = 200
         messagestatus = "Payment Successful!"
 
-    result = {'status': resultstatus, 'message' : messagestatus}
+    result = {'status': resultstatus, 'message' : messagestatus, 'object' : customerObject}
     return result 
 
 
