@@ -40,7 +40,7 @@ def successtopup():
     return render_template('successtopup.html')
 
 
-@app.route('/payment')
+@app.route('/payment', methods=['POST'])
 def receiveOrder():
     #check if the order contains valid JSON
     order = None
