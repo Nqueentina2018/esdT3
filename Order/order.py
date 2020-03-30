@@ -19,17 +19,19 @@ class Order(db.Model):
     __tablename__ = 'order'
     orderid = db.Column(db.Integer , primary_key=True)
     storeidid = db.Column(db.Integer , nullable=False)
+    cid = db.Column(db.Integer , nullable=False)
     status = db.Column(db.String(15) , nullable =False)
     price = db.Column(db.Float(precision=2) , nullable=False)
  
-    def __init__(self, orderid , storeid, status, price):
+    def __init__(self, orderid , storeid, cid, status, price):
         self.orderid = orderid
         self.storeid = storeid
+        self.cid = cid
         self.status = status
         self.price = price
  
     def json(self):
-        return {"orderid": self.orderid, "storeid": self.storeid, "status": self.status, "price": self.price}
+        return {"orderid": self.orderid, "storeid": self.storeid, "cid": self.cid, "status": self.status, "price": self.price}
     
 @app.route("/order")
 def get_all():
@@ -72,23 +74,15 @@ def add_new_order():
 def update_order():
     data = request.get_json()
     orderid= str(data['orderid'])
-    status= str(date['status'])
-    query= "UPDATE order SET status = status WHERE orderid = order id"\
-           "VALUES(%s,%s)"
-    args = (staus, orderid)
-    try:
-        db_config = read_db_config()
-        conn = MySQLConnection(**db_config)
- 
-        cursor = conn.cursor()
-        cursor.execute(query, args)
-    conn.commit()
-    except Error as error:
-        print(error)
- 
-    finally:
-        cursor.close()
-        conn.close() 
+    newStatus= str(date['newStatus'])
+    if (Order.query.filter_by(orderid=orderid).first()):
+        order = Order.query.filter_by(orderid=orderid).first()
+        print(newStatus)
+        order.status = newStatus
+        db.session.commit()
+        return jsonify({"message": "Status updated"}) 
+
+    return jsonify({"message": "Order not found."}), 404
 
 if __name__ == '__main__':
     app.run()
