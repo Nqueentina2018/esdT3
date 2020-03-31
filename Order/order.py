@@ -51,45 +51,20 @@ def find_by_orderid():
 
     return jsonify({"message": "Order not found."}), 404
 
-@app.route("order/neworder" , methods = ['POST'] )
+#working
+@app.route("/order/neworder" , methods = ['POST'] )
 def add_new_order():
     data = request.get_json()
-    orderid = data['orderid']
-    storeid= data['storeid']
-    cid= data['cid']
-    status= data['status']
-    price= data['price']
-    order = Order(orderid, storeid, cid, status, price)
+    order = Order(**data)
+ 
     try:
-        db.session.add(book)
+        db.session.add(order)
         db.session.commit()
     except:
         return jsonify({"message": "An error occurred creating the order."}), 500
+ 
     return jsonify(order.json()), 201
 
-    #     # i = insert(order).values(storeid=storeid, cid=cid, status=status, price=price)
-    #     # db.execute(i)
-    #     order = Order(**data)
-    
-    #     try:
-    #         db.session.add(order)
-    #         db.session.commit()
-    #     except:
-    #         return jsonify({"message": "An error occurred creating the order."}), 500
-
-    # @app.route("order/updateorder" , methods = ['POST'] )
-    # def update_order():
-    #     data = request.get_json()
-    #     orderid= str(data['orderid'])
-    #     newStatus= str(data['newStatus'])
-    #     if (Order.query.filter_by(orderid=orderid).first()):
-    #         order = Order.query.filter_by(orderid=orderid).first()
-    #         print(newStatus)
-    #         order.status = newStatus
-    #         db.session.commit()
-    #         return jsonify({"message": "Status updated"})
-
-    #     return jsonify({"message": "Order not found."}), 404
 
 #working
 @app.route("/order/status" , methods = ['POST'] ) 
