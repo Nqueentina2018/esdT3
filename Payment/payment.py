@@ -52,7 +52,7 @@ def topuppayment():
     #2. Retrive topup amount from charge
     cid = customerDetailsfromUI['cid']
     currentEwalletBalance = customerDetailsfromUI['eWallet']     
-    topupAmt = int(str(charge['amount'])[:-2])
+    topupAmt = charge['amount']/100
 
     #Add the topup amount to current ewallet balance
     newEwalletBalance = currentEwalletBalance + topupAmt
