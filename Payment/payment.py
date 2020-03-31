@@ -25,6 +25,19 @@ def topup():
 @app.route('/topuppayment', methods=['POST'])
 def topuppayment():
     
+    #Check contains valid JSON. UI should send customer ID and the current E wallet Balance
+    if request.get_json():
+        customerDetailsfromUI = request.get_json()
+    else:
+        customerDetailsfromUI = request.get_data()
+        print("Received an invalid order:")
+        print(customerDetailsfromUI)
+        replymessage = json.dumps({"message": "Order should be in JSON", "data": customerDetailsfromUI}, default=str)
+        return replymessage, 400 # Bad Request
+
+    #Strip payment process. 
+    #1. Create the customer
+    #2. Create the charge - payment process is done here
     customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
 
     charge = stripe.Charge.create(
@@ -33,25 +46,28 @@ def topuppayment():
         currency='sgd',
         description="E-Wallet top up"
     )
+    
+    #Successful payment process 
+    #1. Retrive customer id and ewallet balance
+    #2. Retrive topup amount from charge
+    cid = customerDetailsfromUI['cid']
+    currentEwalletBalance = customerDetailsfromUI['eWallet']     
+    topupAmt = int(str(charge['amount'])[:-2])
 
-    charge = json.dumps(charge)
-    topupAmt = charge['amount']
+    #Add the topup amount to current ewallet balance
+    newEwalletBalance = currentEwalletBalance + topupAmt
 
     customerObject = {
                         "cid": cid, 
-                        "newEwalletBalance" : newEwalletBalance,
-                        "storeid": sid,
-                        "price": orderAmount,
-                        "status" : "confirmed" 
+                        "newEwalletBalance" : newEwalletBalance
                     }
     
-    return charge
-    #requests.post(customerURL, json=charge)
+    requests.post(updateEwalletURL, json = customerObject)
+    resultstatus = 200
+    messagestatus = "Top-up Successful!"    
 
-
-@app.route('/successtopup')
-def successtopup():
-    return render_template('successtopup.html')
+    result = {'status': resultstatus, 'message' : messagestatus, 'object' : customerObject}
+    return result
 
 
 @app.route('/payment', methods=['POST'])
