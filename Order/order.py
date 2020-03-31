@@ -5,8 +5,8 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from mysql.connector import MySQLConnection, Error
-from python_mysql_dbconfig import read_db_config
+# from mysql.connector import MySQLConnection, Error
+# from python_mysql_dbconfig import read_db_config
  
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/order'
@@ -18,7 +18,7 @@ CORS(app)
 class Order(db.Model):
     __tablename__ = 'order'
     orderid = db.Column(db.Integer , primary_key=True)
-    storeidid = db.Column(db.Integer , nullable=False)
+    storeid = db.Column(db.Integer , nullable=False)
     cid = db.Column(db.Integer , nullable=False)
     status = db.Column(db.String(15) , nullable =False)
     price = db.Column(db.Float(precision=2) , nullable=False)
@@ -32,11 +32,15 @@ class Order(db.Model):
  
     def json(self):
         return {"orderid": self.orderid, "storeid": self.storeid, "cid": self.cid, "status": self.status, "price": self.price}
+    def jsoncid(self):
+        return {"cid": self.cid}
     
+#working
 @app.route("/order")
 def get_all():
     return jsonify({"orders": [order.json() for order in Order.query.all()]})
 
+#working
 @app.route("/order" , methods = ['POST'] )
 def find_by_orderid():
     data = request.get_json()
@@ -47,46 +51,59 @@ def find_by_orderid():
 
     return jsonify({"message": "Order not found."}), 404
 
-@app.route("order/neworder" , methods = ['POST'] )
-def add_new_order():
-    data = request.get_json()
-    storeid= str(data['orderid'])
-    cid= str(data['cid'])
-    status= str(data['status'])
-    price= str(data['price'])
-    i = insert(order).values(storeid=storeid, cid=cid, status=status, price=price)
-    db.execute(i)
+# @app.route("order/neworder" , methods = ['POST'] )
+# def add_new_order():
+#     data = request.get_json()
+#     orderid = data['orderid']
+#     storeid= data['storeid']
+#     cid= data['cid']
+#     status= data['status']
+#     price= data['price']
+#     # i = insert(order).values(storeid=storeid, cid=cid, status=status, price=price)
+#     # db.execute(i)
+#     order = Order(**data)
+ 
+#     try:
+#         db.session.add(order)
+#         db.session.commit()
+#     except:
+#         return jsonify({"message": "An error occurred creating the order."}), 500
+ 
+#     return jsonify(order.json())
 
-@app.route("order/updateorder" , methods = ['POST'] )
-def update_order():
-    data = request.get_json()
-    orderid= str(data['orderid'])
-    newStatus= str(date['newStatus'])
-    if (Order.query.filter_by(orderid=orderid).first()):
-        order = Order.query.filter_by(orderid=orderid).first()
-        print(newStatus)
-        order.status = newStatus
-        db.session.commit()
-        return jsonify({"message": "Status updated"}) 
 
-    return jsonify({"message": "Order not found."}), 404
+# @app.route("order/updateorder" , methods = ['POST'] )
+# def update_order():
+#     data = request.get_json()
+#     orderid= str(data['orderid'])
+#     newStatus= str(data['newStatus'])
+#     if (Order.query.filter_by(orderid=orderid).first()):
+#         order = Order.query.filter_by(orderid=orderid).first()
+#         print(newStatus)
+#         order.status = newStatus
+#         db.session.commit()
+#         return jsonify({"message": "Status updated"})
 
-@app.route("/order/status" , methods = ['POST'] )
+#     return jsonify({"message": "Order not found."}), 404
+
+#working
+@app.route("/order/status" , methods = ['POST'] ) 
 def order_by_status():
     data = request.get_json()
     status= str(data['status'])
     if (Order.query.filter_by(status=status).all()):
         orders = Order.query.filter_by(status=status).all()
         return jsonify({"orders": [order.json() for order in orders]})
-     return jsonify({"message": "Order not found."}), 404
+    return jsonify({"message": "Order not found."}), 404
 
+#working
 @app.route("/order/customerdetails" , methods = ['POST'] )
 def find_cid_by_orderid():
     data = request.get_json()
     orderid= str(data['orderid'])
     if (Order.query.filter_by(orderid=orderid).first()):
         order = Order.query.filter_by(orderid=orderid).first()
-        return order.cid
+        return jsonify(order.jsoncid())
 
     return jsonify({"message": "Order not found."}), 404
 
