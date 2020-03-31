@@ -1,61 +1,39 @@
 <?php
-require_once 'common.php';
-require_once 'token.php';
+require_once '../include/common.php';
 
-$error = '';
-
-if ( isset($_GET['error']) ) {
-    $error = $_GET['error'];
-} elseif ( isset($_POST['username']) && isset($_POST['password']) ) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $dao = new UserDAO();
-    $user = $dao->retrieve($username);
-
-    if ( $user != null && $user->authenticate($password) ) {
-        $_SESSION['username'] = $username; 
-        header("Location: index.php");
-        return;
-
-    } else {
-        $error = 'Incorrect username or password!';
-    }
-
-
-}
 ?>
 
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="include/style.css">
+        <link rel="stylesheet" type="text/css" href="include/styles.css">
     </head>
+
     <body>
-        <h1>Login</h1>
-        <form method='POST' action='login.php'>
-            <table>
+        <h1>Login to the Ultimate Bubble Tea Store</h1>
+        <form method='POST' action='process_login.php'>
+            <table align = "left">
                 <tr>
                     <td>Username</td>
                     <td>
-                        <input name='username' />
+                        <input name='userid' placeholder ='User ID' />
                     </td>
                 </tr>
                 <tr>
                     <td>Password</td>
                     <td>
-                        <input name='password' type='password' />
+                        <input name='password' type='password' placeholder = 'Password'/>
                     </td>
                 </tr>
                 <tr>
                     <td colspan='2'>
-                        <input name='Login' type='submit' />
+                        <input name='Login' type='submit' value='Login'/>
                     </td>
                 </tr>
             </table>             
         </form>
 
         <p>
-            <?=$error?>
+            <?=printErrors();?>
         </p>
         
     </body>

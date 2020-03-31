@@ -26,8 +26,8 @@ function ready() {
     document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
 }
 
-var paypalHandler = paypalCheckout.configure({
-    key: paypalPublicKey,
+var stripeHandler = stripeCheckout.configure({
+    key: stripePublicKey,
     locale: 'en',
     token: function(token) {
         var items = []
@@ -51,7 +51,7 @@ var paypalHandler = paypalCheckout.configure({
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                paypalTokenId: token.id,
+                stripeTokenId: token.id,
                 items: items
             })
         }).then(function(res) {
@@ -72,7 +72,7 @@ var paypalHandler = paypalCheckout.configure({
 function purchaseClicked() {
     var priceElement = document.getElementsByClassName('cart-total-price')[0]
     var price = parseFloat(priceElement.innerText.replace('$', '')) * 100
-    paypalHandler.open({
+    stripeHandler.open({
         amount: price
     })
 }
@@ -145,3 +145,7 @@ function updateCartTotal() {
     total = Math.round(total * 100) / 100
     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
 }
+
+document.getElementById("topup").onclick = function () {
+    location.href = "payment.py";
+};

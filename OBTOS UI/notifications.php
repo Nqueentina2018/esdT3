@@ -1,3 +1,7 @@
+<?php
+    require_once '../include/protect.php';
+    require_once '../include/common.php';
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,8 +16,8 @@
                 <ul>
                     <li><a href="menu.html">MENU</a></li>
                     <li><a href="locations.html">STORE OUTLETS</a></li>
-                    <li><a href="wallet.html">WALLET</a></li>
-                    <li><a href="notifications.html">NOTIFICATIONS</a></li>
+                    <li><a href="wallet.php">WALLET</a></li>
+                    <li><a href="notifications.php">NOTIFICATIONS</a></li>
                 </ul>
             </nav>
             <h1 class="store-name store-name-large">The Ultimate Bubble Tea Store</h1>
