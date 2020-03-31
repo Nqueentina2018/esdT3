@@ -42,7 +42,7 @@ def topuppayment():
 
     charge = stripe.Charge.create(
         customer = customer.id,
-        amount=request.form['topUpAmt'] + '00',
+        amount = int(request.form['topUpAmt']) * 100,
         currency='sgd',
         description="E-Wallet top up"
     )
