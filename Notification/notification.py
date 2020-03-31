@@ -1,6 +1,7 @@
 import sys
 import os
 import csv
+import json
 
 # Communication pattern:
 # Use a message-broker with 'direct' exchange to enable interaction

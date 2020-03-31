@@ -18,37 +18,20 @@ class Customer(db.Model):
     password = db.Column(db.String(30) , nullable = False)
     ewallet = db.Column(db.Float(precision=2))
  
-    def __init__(self, cid , name , phone , ewallet , username , password):
+    def __init__(self, cid , name , phone , ewallet ):
         self.cid = cid
         self.name = name
         self.phone = phone
         self.ewallet = ewallet
-        self.username = username
-        self.password = password
  
     def json(self):
-        return {"id": self.cid, "name": self.name, "phone": self.phone, "ewallet": self.ewallet , "username": self.username, "password": self.password}
+        return {"id": self.cid, "name": self.name, "phone": self.phone, "ewallet": self.ewallet }
     def jsonewallet(self):
         return {"ewallet": self.ewallet}
-    def jsonui(self):
-        return {"id": self.cid, "name": self.name, "phone": self.phone, "ewallet": self.ewallet , "username": self.username}
-
 
 @app.route("/customer")
 def get_all():
     return jsonify({"customers": [customer.json() for customer in Customer.query.all()]})
-
-@app.route("/customer/auth" , methods = ['POST'])
-def auth():
-    data = request.get_json()
-    username = data['username']
-    if (Customer.query.filter_by(username=username).first()):
-        customer = Customer.query.filter_by(username=username).first()
-        if customer.password == data['password']:
-            return jsonify(customer.jsonui())
-        else :
-            return jsonify({"message": "password is incorrect."}), 404
-    return jsonify({"message": "username is incorrect"}),404
 
 
 @app.route("/customer" , methods = ['POST'] )

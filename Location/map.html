@@ -17,15 +17,27 @@
     <h1>Bubble Tea Shops near you</h1>
     <div id="map"></div>
     <script type="text/javascript">
-        function initMap() {
-            var options = {
+
+        x = navigator.geolocation;  // locate the user's position
+        x.getCurrentPosition(success);
+
+        function success(position) {
+            var myLat = position.coords.latitude;
+            var myLong = position.coords.longitude;
+            x.innerHTML = myLat;
+            console.log(myLong);
+
+            var coords = new google.maps.LatLng(myLat, myLong);
+
+            var mapOptions = {
+
                 zoom: 15,
-                center: { lat: 1.297924, lng: 103.849418 }     // Coordinates of SMU SIS
+                center: coords,
+                mapTypeId: google.maps.MapTypeId.ROADMAP   // Roadmap is shown
             }
 
-            var map = new google.maps.Map(document.getElementById('map'), options);// map object
-            // Adds the main marker to the center
-            var marker = new google.maps.Marker({map:map, position: { lat: 1.297924, lng: 103.849418 }});
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            var marker = new google.maps.Marker({ map: map, position: coords });
 
             // Array of markers
             var markers = [
@@ -51,6 +63,7 @@
                 addMarker(markers[i]);
             }
 
+            // Add Marker function
             function addMarker(properties) {
                 var marker = new google.maps.Marker({
                     position: properties.coords,
@@ -58,7 +71,7 @@
                     icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=cafe|FFFF00'
                 });
 
-                // Check for custom icon just in case
+                // Check for custom icon
                 if (properties.iconImage) {
                     // Set icon image
                     marker.setIcon(properties.iconImage)
@@ -74,7 +87,9 @@
                     });
                 }
             }
+
         }
+
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdw7w4zD54r-oY-kKR3pM-DeRXFBIKpbA&callback=initMap">
