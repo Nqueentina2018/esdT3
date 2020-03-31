@@ -7,7 +7,7 @@
     <head>
         <title>The Ultimate Bubble Tea | Store</title>
         <meta name="description" content="This is the description">
-        <link rel="stylesheet" href="styles.css" />
+        <link rel="stylesheet" href="../include/styles.css" />
         <script src="store.js" async></script>
     </head>
     <body>
