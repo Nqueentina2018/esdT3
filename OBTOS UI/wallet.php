@@ -29,7 +29,7 @@
                 <section class="container content-section">
                     <h2 class="section-header">Your E-Wallet</h2>
                         <img class="map-image" src="../Images/wallet.jpg">
-                        <h4>Your E-Dollar Balance: <b><u>$<?=$edollar?></u></b></h4>
+                        <h4>Your E-Dollar Balance: <b><u>$<?=$edollar?></u></b></h4> //not sure how to call customer ewallte info here
                         <section class="container content-section">
 
 
