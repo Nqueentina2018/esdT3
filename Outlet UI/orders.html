@@ -40,7 +40,7 @@
                 <thead class='thead-dark'>
                     <form id='Update' action='orders.html' method='POST'>
                     Complete order : <input name='orderid' type='text' id='orderid' value=' enter order id'>
-                    <input type='submit' value='Submit'></form><Br><br>
+                    <input type='submit' value='Complete'></form><Br><br>
                     <tr>
                         <th>OrderID</th>
                         <th>Status</th>
@@ -92,7 +92,7 @@
             $(async () => {
                 // Change serviceURL to your own
                 
-                var serviceURL = "http://127.0.0.1:5000/order/status";
+                var serviceURL = "http://127.0.0.1:5002/order/status";
     
                 try {
                     console.log('fetching');
@@ -137,7 +137,7 @@
             $("#Update").submit(async (event) => {
             console.log("ooo")
             var orderid = $('#orderid').val();
-            var serviceURL = "http://127.0.0.1:5000/order/update" ;
+            var serviceURL = "http://127.0.0.1:5002/order/update" ;
             // console.log(serviceURL);
 
             try {
@@ -172,7 +172,7 @@
             $(async () => {
                 // Change serviceURL to your own
                 
-                var serviceURL = "http://127.0.0.1:5000/order/status";
+                var serviceURL = "http://127.0.0.1:5002/order/status";
     
                 try {
                     const response =

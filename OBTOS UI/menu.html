@@ -15,7 +15,7 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
     </head>
-    
+
     <body>
         <header class="main-header">
             <nav class="main-nav nav">
@@ -37,148 +37,13 @@
                         <tr>
                             <th>Name</th>
                             <th>Price</th>
+                            <th>Add</th>
                         </tr>
                     </thead>
                 </table>
 
             </div>
         </section>
-            <script>
-                // Helper function to display error message
-                function showError(message) {
-                    // Hide the table and button in the event of error
-                    $('#drinksTable').hide();
-                    
-        
-                    // Display an error under the main container
-                    $('#main-container')
-                        .append("<label>" + message + "</label>");
-                }
-        
-                // anonymous async function 
-                // - using await requires the function that calls it to be async
-                
-                $(async () => {
-                    // Change serviceURL to your own
-                    
-                    var serviceURL = "http://127.0.0.1:5000/menu/drink";
-        
-                    try {
-                        const response =
-                            await fetch(
-                                serviceURL, { method: 'GET' }
-                            );
-                        console.log("hi");
-                        const data = await response.json();
-                        console.log("data");
-                        var drinks = data.menu; //the arr is in data.books of the JSON data
-        
-                        // array or array.length are falsy
-                        if (!drinks || !drinks.length) {
-                            showError('drinks list empty or undefined.')
-
-                        } else {
-                            // for loop to setup all table rows with obtained book data
-                            var rows = "";
-                            for (const drink of drinks) {
-                                eachRow =
-                                    "<td>" + drink.name  + "</td>" +
-                                    "<td>" + drink.price + "</td>";
-                                rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-                            }
-                            // add all the rows to the table
-                            $('#drinksTable').append(rows);
-                        }
-                    } catch (error) {
-                        // Errors when calling the service; such as network error, 
-                        // service offline, etc
-                        showError
-                            ('There is a problem retrieving drinks data, please try again later.<br />' + error);
-        
-                    } // error
-                });
-
-                function showError(message) {
-            // Hide the table and button in the event of error
-            $('#AddForm').hide();
-
-            // Display an error under the main container
-            $('#main-container')
-                .append("<label>" + message + "</label>");
-        }
-
-
-        $("#AddForm").submit(async (event) => {
-            // event.preventDefault();
-            // Change serviceURL to your own
-            var e_wallet_bal = $('#e_wallet_bal').val();
-            var total = $('#total').val();
-            var serviceURL = "http://127.0.0.1:5000/payment/ewallet";
-            // console.log(serviceURL);
-
-            try {
-                const response =
-                    await fetch(
-                        serviceURL,
-                        {
-                            method: 'POST',
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify
-                                ({
-                                    e_wallet_bal: e_wallet_bal,
-                                    total: total
-                                })
-                        });
-
-                const data = await response.json();
-                if (response.ok) {
-                    console.log(data);
-                    window.location.href = "menu.html";
-                }
-
-            } catch (error) {
-                // Errors when calling the service; such as network error, 
-                // service offline, etc
-                showError
-                    ('There is a problem sending order, please try again later.<br />' + error);
-
-            } // error
-        });
-            </script>
-            <!-- <div class="shop-items">
-                <div class="shop-item">
-                    <span class="shop-item-title">Signature Milk Tea</span>
-                    <img class="shop-item-image" src="../Images/Signature Milk Tea.jpg">
-                    <div class="shop-item-details">
-                        <span class="shop-item-price">$2.50</span>
-                        <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
-                    </div>
-                </div>
-                <div class="shop-item">
-                    <span class="shop-item-title">Brown Sugar Milk Tea</span>
-                    <img class="shop-item-image" src="../Images/Brown Sugar Milk Tea.jpg">
-                    <div class="shop-item-details">
-                        <span class="shop-item-price">$2.90</span>
-                        <button class="btn btn-primary shop-item-button"type="button">ADD TO CART</button>
-                    </div>
-                </div>
-                <div class="shop-item">
-                    <span class="shop-item-title">Belgian Chocolate Smoothie</span>
-                    <img class="shop-item-image" src="../Images/Belgian Chocolate Smoothie.jpg">
-                    <div class="shop-item-details">
-                        <span class="shop-item-price">$3.90</span>
-                        <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
-                    </div>
-                </div>
-                <div class="shop-item">
-                    <span class="shop-item-title">Strawberry Cheese Tea</span>
-                    <img class="shop-item-image" src="../Images/Strawberry Cheese Tea.jpg">
-                    <div class="shop-item-details">
-                        <span class="shop-item-price">$4.90</span>
-                        <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
-                    </div>
-                </div>
-            </div> -->
         
         <section class="container content-section">
             <h2 class="section-header">TOPPINGS</h2>
@@ -214,14 +79,109 @@
                 <strong class="cart-total-title">Total</strong>
                 <span class="cart-total-price">$0</span>
             </div>
-            <div id="custinfo" class="container">
-                <form id="AddForm" action="menu.html" method="POST">
-                    <input name="e_wallet_bal" type="hidden" id="e_wallet_bal" value = 10>
-                    <input name="total" type="hidden" id="total" value = 5.10>
-                    <input type="submit" value="Purchase">
-                </form>
-             
+            
+            <form id='Payment' action='menu.html' method='POST'>
+            <input name='totalAmt' type='hidden' id='totalAmt'>
+            <input name='cid' type='hidden' id='cid'>
+            <input name='sid' type='hidden' id='sid'>
+            <input type='submit' value='Purchase'>
+            </form>
         </section>
+
+        <script>
+            // Helper function to display error message
+            function showError(message) {
+                // Hide the table and button in the event of error
+                $('#drinksTable').hide();
+                
+    
+                // Display an error under the main container
+                $('#main-container')
+                    .append("<label>" + message + "</label>");
+            }
+    
+            // anonymous async function 
+            // - using await requires the function that calls it to be async
+            
+            $(async () => {
+                // Change serviceURL to your own
+                
+                var serviceURL = "http://127.0.0.1:5001/menu/drink";
+    
+                try {
+                    const response =
+                        await fetch(
+                            serviceURL, { method: 'GET' }
+                        );
+                    console.log("hi");
+                    const data = await response.json();
+                    console.log("data");
+                    var drinks = data.menu; //the arr is in data.books of the JSON data
+    
+                    // array or array.length are falsy
+                    if (!drinks || !drinks.length) {
+                        showError('drinks list empty or undefined.')
+
+                    } else {
+                        // for loop to setup all table rows with obtained book data
+                        var rows = "";
+                        for (const drink of drinks) {
+                            eachRow =
+                                "<td>" + drink.name  + "</td>" +
+                                "<td>" + drink.price + "</td>"+
+                                "<td><button class='btn btn-primary shop-item-button' type='button'>ADD TO CART</button></td>";
+                            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                        }
+                        // add all the rows to the table
+                        $('#drinksTable').append(rows);
+                    }
+                } catch (error) {
+                    // Errors when calling the service; such as network error, 
+                    // service offline, etc
+                    showError
+                        ('There is a problem retrieving drinks data, please try again later.<br />' + error);
+    
+                } // error
+            });
+
+            $("#Payment").submit(async (event) => {
+            
+            var cid = $('#cid').val();
+            var sid = $('#sid').val();
+            var totalAmt = $('#totalAmt').val();
+            var serviceURL = "http://127.0.0.1:5003/payment" ;
+            // console.log(serviceURL);
+
+            try {
+                console.log("ooo")
+                const toPost = {
+                    cid : cid , sid : sid ,totalAmt : totalAmt
+                };
+                const response =
+                    await fetch(
+                        serviceURL,
+                        {
+                            method: 'POST',
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(toPost)
+                        });
+
+                console.log("11111111111")
+                const data = await response.json();
+                if (response.ok) {
+                    console.log(data);
+                    window.location.href = "menu.html";
+                }
+
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                    ('There is a problem retrieving books data, please try again later.<br />' + error);
+
+            } // error
+        });
+        </script>
         
     </body>
 </html>
