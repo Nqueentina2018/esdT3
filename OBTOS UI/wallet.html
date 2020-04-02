@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>The Ultimate Bubble Tea | Store</title>
+        <meta name="description" content="This is the description">
+        <link rel="stylesheet" href="../include/styles.css" />
+        <script src="store.js" async></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <header class="main-header">
+            <nav class="main-nav nav">
+                <ul>
+                    <li><a href="menu.html">MENU</a></li>
+                    <li><a href="locations.html">STORE OUTLETS</a></li>
+                    <li><a href="wallet.html">WALLET</a></li>
+                    <li><a href="notifications.php">NOTIFICATIONS</a></li>
+                </ul>
+            </nav>
+            <h1 class="store-name store-name-large">The Ultimate Bubble Tea Store</h1>
+        </header>
+        <!-- <div style='float:left; width:60%'> -->
+            <div id="main-container" class="container">
+                <h1 class="display-4">eWallet</h1>
+                
+                <h2 id="ewalletTable" >Your E-Wallet : $</h2>
+
+                <button class="btn btn-primary shop-item-button" type="button" id='topup'>TOPUP eWallet</button>
+            </div>
+            <!-- <img class="map-image" src="../Images/wallet.jpg"> -->
+        
+        <script>
+        $(async () => {
+            // Change serviceURL to your own
+            
+            var serviceURL = "http://127.0.0.1:5000/customer/getewallet";
+
+            try {
+                console.log('fetching');
+                const response =
+                await fetch(
+                    serviceURL, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cid : '1'})
+                });
+                console.log('after fetch');
+
+                const data = await response.json(); //retrieve data
+                console.log(data['ewallet']);
+                var ewallet = data['ewallet'];
+                $("#ewalletTable").append(ewallet);
+                
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                    ('There is a problem retrieving order data, please try again later.<br />' + error);
+
+            } // error
+            
+            function showError(message) {
+                // Hide the table and button in the event of error
+                $('#AddForm').hide();
+
+                // Display an error under the main container
+                $('#main-container')
+                    .append("<label>" + message + "</label>");
+            }
+            
+        });
+        </script>
+                
+    </body>
+</html>
