@@ -1,0 +1,58 @@
+{
+    "locations": [
+        {
+            "id": 1,
+            "name": "Bubble Tea at LKSCB",
+            "address": "50 Stamford Rd, #01-01 Lee Kong Chian Of Business, Singapore 178899",
+            "coordinates": [
+                1.296224,
+                103.850364
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Bubble Tea at Plaza Singapura",
+            "address": "68 Orchard Rd, #B1-K7 Plaza, Singapore 238839",
+            "coordinates": [
+                1.300426,
+                103.845149
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Bubble Tea at Orchard Road",
+            "address": "313 Orchard Rd, Singapore 238895",
+            "coordinates": [
+                1.301040,
+                103.838411
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Bubble Tea at West Gate",
+            "address": "3 Gateway Dr, #02-27 Westgate, Singapore 608532",
+            "coordinates": [
+                1.339390,
+                103.743255
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Bubble Tea at Funan",
+            "address": "109 North Bridge Rd, #02-01 Funan Mall, Singapore 179097",
+            "coordinates": [
+                1.292488, 
+                103.849774
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Bubble Tea at Toa Payoh",
+            "address": "190 Lor 6 Toa Payoh, #01-546, Singapore 310190",
+            "coordinates": [
+                1.333244, 
+                103.848464
+            ]
+        }
+    ]
+}
