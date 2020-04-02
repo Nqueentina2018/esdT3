@@ -10,8 +10,10 @@ import stripe
 import requests
 import json
 
-updateEwalletURL = "http://localhost/customer/updatewallet"
-newOrderURL = "http://localhost/order/neworder"
+updateEwalletURL = "http://localhost:5000/customer/updatewallet"
+getEwalletUrl = "http://localhost:5000/customer/getewallet"
+newOrderURL = "http://localhost:5002/order/neworder"
+genIdURL = "http://localhost:5002/order/gen_id"
 
 pub_key = 'pk_test_a4WmBvNzgsdxl168Wwu0aGde00kaznh0SL'
 secret_key = 'sk_test_n2Zbe1bhsIhVn7XCpYSIBSK600OHvj08YF'
@@ -77,6 +79,7 @@ def receiveOrder():
     payment = None
     if request.get_json():
         payment = request.get_json()
+        return payment
     else:
         payment = request.get_data()
         print("Received an invalid order:")
@@ -92,30 +95,42 @@ def receiveOrder():
         return result['message']
 
 def processPayment(payment):
-
     #UI is sending sending storeid, ewallet balance, order amount and customer id
+    # get ewallet balance from cid
     cid = payment['cid']
     orderAmount = payment['totalAmt']
-    ewalletBalance = payment['eWallet']
     sid = payment['sid']
-    
+
+    response=requests.post(getEwalletUrl, json = {'cid' : cid})
+    data = response.json()
+    ewalletBalance = data['ewallet']
+
+    response1=requests.get(genIdURL)
+    data1 = response1.json()
+    orderid = data1['orderid']
+
     #Check if the balance is enough to pay
     if ewalletBalance < orderAmount:
         resultstatus = 501
         messagestatus = "Insufficient E-Wallet Balance! Please top-up."
 
     else:
-        newEwalletBalance = ewalletBalance - orderAmount        
+        newEwalletBalance = ewalletBalance - orderAmount
         customerObject = {
                         "cid": cid, 
                         "newEwalletBalance" : newEwalletBalance,
+                        "price": orderAmount
+                        }
+        orderObject = {
+                        "orderid" : orderid,
+                        "cid": cid, 
                         "storeid": sid,
                         "price": orderAmount,
-                        "status" : "confirmed" 
+                        "status" : "Confirmed" 
                         }
         # customerObject = json.dumps(customerObject) , dumps makes it into json string so try not to use
         requests.post(updateEwalletURL, json = customerObject)
-        requests.post(newOrderURL, json = customerObject)
+        requests.post(newOrderURL, json = orderObject)
         resultstatus = 200
         messagestatus = "Payment Successful!"
 

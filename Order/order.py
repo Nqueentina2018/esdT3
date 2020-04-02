@@ -89,5 +89,20 @@ def update_status_by_orderid():
 
     return jsonify({"message": "Order not found."}), 404
 
+#working
+@app.route("/order/gen_id")
+def gen_id():
+    orders = Order.query.all()
+    if orders:
+        id = 0
+        for order in orders:
+            id += 1 
+        id +=1
+        return jsonify({"orderid": id})
+    else:
+        return jsonify({"message": "Orders not found."}), 404
+        
+
+
 if __name__ == '__main__':
     app.run(port=5002)    
