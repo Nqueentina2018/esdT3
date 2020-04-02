@@ -77,13 +77,15 @@ def order_by_status():
     return jsonify({"message": "Order not found."}), 404
 
 #working
-@app.route("/order/customerdetails" , methods = ['POST'] )
-def find_cid_by_orderid():
+@app.route("/order/update" , methods = ['POST'] )
+def update_status_by_orderid():
     data = request.get_json()
-    orderid= str(data['orderid'])
+    orderid= data['orderid']
     if (Order.query.filter_by(orderid=orderid).first()):
         order = Order.query.filter_by(orderid=orderid).first()
-        return jsonify(order.jsoncid())
+        order.status = 'Completed'
+        db.session.commit()
+        return jsonify({"message": "Status changed!"})
 
     return jsonify({"message": "Order not found."}), 404
 
