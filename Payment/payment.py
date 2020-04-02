@@ -115,7 +115,7 @@ def processPayment(payment):
                         }
         # customerObject = json.dumps(customerObject) , dumps makes it into json string so try not to use
         requests.post(updateEwalletURL, json = customerObject)
-        # requests.post(newOrderURL, json = customerObject)
+        requests.post(newOrderURL, json = customerObject)
         resultstatus = 200
         messagestatus = "Payment Successful!"
 
@@ -124,4 +124,4 @@ def processPayment(payment):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5003)

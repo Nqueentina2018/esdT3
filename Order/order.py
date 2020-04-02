@@ -90,4 +90,4 @@ def update_status_by_orderid():
     return jsonify({"message": "Order not found."}), 404
 
 if __name__ == '__main__':
-    app.run()    
+    app.run(port=5002)    
