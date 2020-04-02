@@ -26,14 +26,14 @@ def topup():
 def topuppayment():
     
     #Check contains valid JSON. UI should send customer ID and the current E wallet Balance
-    if request.get_json():
-        customerDetailsfromUI = request.get_json()
-    else:
-        customerDetailsfromUI = request.get_data()
-        print("Received an invalid order:")
-        print(customerDetailsfromUI)
-        replymessage = json.dumps({"message": "Order should be in JSON", "data": customerDetailsfromUI}, default=str)
-        return replymessage, 400 # Bad Request
+    # if request.get_json():
+    #     customerDetailsfromUI = request.get_json()
+    # else:
+    #     customerDetailsfromUI = request.get_data()
+    #     print("Received an invalid order:")
+    #     print(customerDetailsfromUI)
+    #     replymessage = json.dumps({"message": "Order should be in JSON", "data": customerDetailsfromUI}, default=str)
+    #     return replymessage, 400 # Bad Request
 
     #Strip payment process. 
     #1. Create the customer
