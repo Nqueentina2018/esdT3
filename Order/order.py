@@ -18,20 +18,18 @@ CORS(app)
 class Order(db.Model):
     __tablename__ = 'order'
     orderid = db.Column(db.Integer , primary_key=True)
-    storeid = db.Column(db.Integer , nullable=False)
     cid = db.Column(db.Integer , nullable=False)
     status = db.Column(db.String(15) , nullable =False)
     price = db.Column(db.Float(precision=2) , nullable=False)
  
-    def __init__(self, orderid , storeid, cid, status, price):
+    def __init__(self, orderid , cid, status, price):
         self.orderid = orderid
-        self.storeid = storeid
         self.cid = cid
         self.status = status
         self.price = price
  
     def json(self):
-        return {"orderid": self.orderid, "storeid": self.storeid, "cid": self.cid, "status": self.status, "price": self.price}
+        return {"orderid": self.orderid, "cid": self.cid, "status": self.status, "price": self.price}
     def jsoncid(self):
         return {"cid": self.cid}
     

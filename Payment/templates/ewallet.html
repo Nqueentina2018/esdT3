@@ -39,13 +39,14 @@
 </head>
 <body>
 
-  <div class="container" id="main-container">
-    <form action="{127.0.0.1:5000/customer/updatewallet" method="POST">
+  <div class="container" id="main-container"></div>
+    <form action="{{ url_for('topuppayment') }}" method="POST">
         <div class="form-group row">
             <label for="topUpAmt" class="col-sm-2 col-form-label">Top Up Amount</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="topUpAmt" name="topUpAmt">
                 <input type="hidden" id="cid" name="cid" value = 1>
+                <!-- <input type="hidden" id="ewalletBalance" name="ewalletBalance" value = 10> -->
             </div>
         </div>  
     

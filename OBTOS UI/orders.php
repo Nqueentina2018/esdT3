@@ -4,19 +4,28 @@
         <title>The Ultimate Bubble Tea | Store</title>
         <meta name="description" content="This is the description">
         <link rel="stylesheet" href="../include/styles.css" />
-        <script src="store.js" async></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- <script src="store.js" async></script> -->
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
         integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
         crossorigin="anonymous"></script>
 
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+        
+    
     </head>
-
     <body>
+        <?php
+        $_POST['']
+        ?>
+
         <header class="main-header">
             <nav class="main-nav nav">
                 <ul>
@@ -29,20 +38,26 @@
             <h1 class="store-name store-name-large">The Ultimate Bubble Tea Store</h1>
         </header>
         <div id="main-container" class="container">
-            <form id='Payment' action='paymenttest.html' method='POST'>
-            <input name='totalAmt' type='hidden' id='totalAmt'>
-            <input name='cid' type='hidden' id='cid'>
-            <input name='sid' type='hidden' id='sid'>
-            <input type='submit' value='Purchase'>
-            </form>
-        </div>
+            <h1 class="display-4">Orders Pending</h1>
+            
+            <table id="pendingTable" class='table table-striped' border='1'>
 
+                <thead class='thead-dark'>
+                    <form id='payment' action='orders.html' method="POST">
+                    <input name='totalAmt' type='hidden' id='totalAmt' value = 5>
+                    <input name='cid' type='hidden' id='cid' value = 1>
+                    <input name='sid' type='hidden' id='sid' value = 1>
+                    <input type='submit' value='Purchase'>
+                    </form><Br><br>
+                </thead>
+            </table>
+        </div>
 
         <script>
             // Helper function to display error message
-            function showError(message) {
+            function showErrorMain(message) {
                 // Hide the table and button in the event of error
-                $('#main-container').hide();
+                $('#pendingTable').hide();
                 
     
                 // Display an error under the main container
@@ -52,8 +67,11 @@
     
             // anonymous async function 
             // - using await requires the function that calls it to be async
-            $("#Payment").submit(async (event) => {
             
+            // getting confirmed orders
+
+            $("#payment").submit(async (event) => {
+            event.preventDefault();
             var cid = $('#cid').val();
             var sid = $('#sid').val();
             var totalAmt = $('#totalAmt').val();
@@ -61,24 +79,21 @@
             // console.log(serviceURL);
 
             try {
-                console.log("ooo")
-                const toPost = {
-                    cid : cid , sid : sid ,totalAmt : totalAmt
-                };
-                const response =
+                console.log(JSON.stringify({cid : cid ,totalAmt : totalAmt}))
+                
+                let response =
                     await fetch(
                         serviceURL,
                         {
                             method: 'POST',
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(toPost)
+                            headers: { "Content-Type": "application/json"  }, 
+                            body: JSON.stringify({cid : cid , sid : sid ,totalAmt : totalAmt}),
                         });
-
-                console.log("11111111111")
-                const data = await response.json();
+                console.log(response)
+                let data = await response.json();
                 if (response.ok) {
                     console.log(data);
-                    window.location.href = "menu.html";
+                    window.location.href = "paymenttest.html";
                 }
 
             } catch (error) {
@@ -89,6 +104,8 @@
 
             } // error
         });
+
+
         </script>
         
     </body>
