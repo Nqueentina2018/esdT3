@@ -48,22 +48,28 @@ def topuppayment():
         currency='sgd',
         description="E-Wallet top up"
     )
+    #return charge
     
     #Successful payment process 
     #1. Retrive customer id and ewallet balance
     #2. Retrive topup amount from charge
-    cid = customerDetailsfromUI['cid']
-    currentEwalletBalance = customerDetailsfromUI['eWallet']     
-    topupAmt = charge['amount']/100
+        #cid = customerDetailsfromUI['cid']
+        #currentEwalletBalance = customerDetailsfromUI['eWallet']     
+    cid = request.form['cid']
+    currentEwalletBalance = float(request.form['ewalletBalance'])
+    topupAmt = charge['amount'] /100
 
-    #Add the topup amount to current ewallet balance
+    
+
+    # Add the topup amount to current ewallet balance
     newEwalletBalance = currentEwalletBalance + topupAmt
-
+    
     customerObject = {
                         "cid": cid, 
                         "newEwalletBalance" : newEwalletBalance
                     }
     
+
     requests.post(updateEwalletURL, json = customerObject)
     resultstatus = 200
     messagestatus = "Top-up Successful!"    
