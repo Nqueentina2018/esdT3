@@ -1,7 +1,7 @@
-<?php
-    require_once '../include/protect.php';
-    require_once '../include/common.php';
-?>
+<!-- <?php
+    // require_once '../include/protect.php';
+    // require_once '../include/common.php';
+?> -->
 <!DOCTYPE html>
 <html>
     <head>
