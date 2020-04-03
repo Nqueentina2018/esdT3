@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+    <meta name="description" content="This is the description">
+    <link rel="stylesheet" href="../include/styles.css" />
+    <script src="store.js" async></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BBEZ stores near you</title>
@@ -14,7 +17,17 @@
 </head>
 
 <body>
-    <h1>BBEZ near you</h1>
+    <header class="main-header">
+        <nav class="main-nav nav">
+            <ul>
+                <li><a href="menu.html">MENU</a></li>
+                <li><a href="locations.html">STORE OUTLETS</a></li>
+                <li><a href="wallet.php">WALLET</a></li>
+                <li><a href="notifications.php">NOTIFICATIONS</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1 style="font-size:300%;color:black;text-align:center;">BBEZ near you</h1>
     <div id="map"></div>
     <script type="text/javascript">
 
@@ -44,7 +57,9 @@
                 {
                     coords: { lat: 1.296224, lng: 103.850364 },
                     content: '<h4>BBEZ, Lee Kong Chian School of Business</h4><p>50 Stamford Rd, #01-01 Lee Kong Chian Of Business, Singapore 178899</p>'
-                },
+                }
+                /**
+                ,
                 {
                     coords: { lat: 1.300426, lng: 103.845149 },
                     content: '<h4>BBEZ, Plaza Singapura</h4><br><p>68 Orchard Rd, #B1-K7 Plaza, Singapore 238839</p>'
@@ -65,6 +80,7 @@
                     coords: { lat: 1.333244, lng: 103.848464 },
                     content: '<h4>BBEZ, Toa Payoh</h4><br><p>190 Lor 6 Toa Payoh, #01-546, Singapore 310190</p>'
                 }
+                */
             ];
 
             for (var i = 0; i < markers.length; i++) {
