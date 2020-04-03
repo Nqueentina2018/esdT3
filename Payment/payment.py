@@ -112,7 +112,6 @@ def processPayment(payment):
     # get ewallet balance from cid
     cid = int(payment['cid'])
     orderAmount = float(payment['totalAmt'])
-    sid = int(payment['sid'])
 
     response=requests.post(getEwalletUrl, json = {'cid' : cid})
     data = response.json()
@@ -137,7 +136,6 @@ def processPayment(payment):
         orderObject = {
                         "orderid" : orderid,
                         "cid": cid, 
-                        "storeid": sid,
                         "price": orderAmount,
                         "status" : "Confirmed" 
                         }
