@@ -56,13 +56,18 @@ def topuppayment():
         #cid = customerDetailsfromUI['cid']
         #currentEwalletBalance = customerDetailsfromUI['eWallet']     
     cid = request.form['cid']
-    currentEwalletBalance = float(request.form['ewalletBalance'])
+
+    ewalletresponse=requests.post(getEwalletUrl, json = {'cid' : cid})
+    ewalletdata = ewalletresponse.json()
+    ewalletBalance = float(ewalletdata['ewallet'])
+
+    # currentEwalletBalance = float(request.form['ewalletBalance'])
     topupAmt = charge['amount'] /100
 
     
 
     # Add the topup amount to current ewallet balance
-    newEwalletBalance = currentEwalletBalance + topupAmt
+    newEwalletBalance = ewalletBalance + topupAmt
     
     customerObject = {
                         "cid": cid, 
@@ -75,7 +80,7 @@ def topuppayment():
     messagestatus = "Top-up Successful!"    
 
     result = {'status': resultstatus, 'message' : messagestatus, 'object' : customerObject}
-    return result
+    return redirect('http://localhost/esd/OBTOS%20UI/wallet.html')
 
 
 @app.route('/payment', methods=['POST'])
