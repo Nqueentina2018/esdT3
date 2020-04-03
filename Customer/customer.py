@@ -14,8 +14,6 @@ class Customer(db.Model):
     cid = db.Column(db.Integer , primary_key=True)
     name = db.Column(db.String(15) , nullable =False)
     phone = db.Column(db.String(10) , nullable = False)
-    username = db.Column(db.String(30) , nullable =False)
-    password = db.Column(db.String(30) , nullable = False)
     ewallet = db.Column(db.Float(precision=2))
  
     def __init__(self, cid , name , phone , ewallet ):

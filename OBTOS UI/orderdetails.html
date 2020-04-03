@@ -68,7 +68,7 @@
                     serviceURL, {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ orderid : 17})
+                    body: JSON.stringify({ orderid : 7})
                 });
                 console.log('after fetch');
 
@@ -76,7 +76,7 @@
                 row = 
                     "<tr> <td>Order ID : </td><td>"+ data['orderid'] + "</tr></td>" +
                     "<tr> <td>Customer ID : </td><td>" + data['cid'] + "</tr></td>" +
-                    "<tr> <td>Total : </td><td>" + data['price'] + "</tr></td>" +
+                    "<tr> <td>Total : </td><td>$" + data['price'] + "0</tr></td>" +
                     "<tr> <td>Status : </td><td>" + data['status'] + "</tr></td>";
                 $("td").append(row);
                 

@@ -32,7 +32,9 @@
                 
                 <h2 id="ewalletTable" >Your E-Wallet : $</h2>
 
-                <button class="btn btn-primary shop-item-button" type="button" id='topup'>TOPUP eWallet</button>
+                <form action='http://localhost:5003/topup'>
+                    <input type = 'submit' value='Top Up'>
+                </form>
             </div>
             <!-- <img class="map-image" src="../Images/wallet.jpg"> -->
         
@@ -52,8 +54,9 @@
                     body: JSON.stringify({ cid : 1})
                 });
                 console.log('after fetch');
-
+                
                 const data = await response.json(); //retrieve data
+                console.log(data)
                 console.log(data['ewallet']);
                 var ewallet = data['ewallet'];
                 $("#ewalletTable").append(ewallet);

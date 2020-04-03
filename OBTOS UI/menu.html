@@ -14,9 +14,16 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+
+        <script>
+            function myFunction(value) {
+                document.getElementById("demo").innerHTML = value;
+            }
+        </script>
     </head>
 
     <body>
+
         <header class="main-header">
             <nav class="main-nav nav">
                 <ul>
@@ -30,6 +37,70 @@
         </header>
         <section class="container content-section">
             <div id="main-container" class="container">
+
+                <form id='payment' action='orderdetails.html' method ="POST">
+                    <table>
+                    <tr>
+                    <td colspan="4"><h3> Step 1: Select your Tea</h3></td>
+                    </tr>
+                    <tr>
+                    
+                    <td colspan="3"><STRONG> Tea Type</STRONG></td>
+                    <td><STRONG>Price</STRONG></td>
+            
+                    </tr>
+                    <tr>
+                        
+                        <td colspan="3" width="80%">
+                            <input type='radio' name='drinks' value='Ah Kong Original Milk Tea' id='Ah Kong Original Milk Tea'>
+                            <label for='Ah Kong Original Milk Tea'>Milk Tea</label></td>
+                        <td width="22%">$3.50</td>
+                        
+                    </tr>
+                    <tr>
+                        
+                        <td colspan="3">
+                            <input type='radio' name='drinks' value='Brown Sugar Green Tea Macchiato' id='Brown Sugar Green Tea Macchiato'>
+                            <label for='Brown Sugar Green Tea Macchiato'>Passion Fruit Yakult</label></td>
+                        <td>$3.80</td>
+                        
+                    </tr>
+                    <tr>
+                        
+                        <td colspan="3">
+                            <input type='radio' name='drinks' value='Earl Grey Milk Tea' id='Earl Grey Milk Tea'>
+                            <label for='Earl Grey Milk Tea'>Earl Grey Milk Tea</label></td>
+                        <td>$3.00</td>
+                    
+                    </tr>
+                    <tr>
+                        
+                        <td colspan="3">
+                            <input type='radio' name='drinks' value='Rainbow Milk Tea' id='Rainbow Milk Tea'>
+                            <label for='Rainbow Milk Tea'>Ginger Milk Tea</label></td>
+                        <td>$4.00</td>
+                        
+                    </tr>
+                    <tr>
+                    <td colspan="4"><h3>Step 2: Select Your Topping (Optional) </h3> <small>(Each Topping + additional 50ct)</small></td>
+                    </tr>
+                    <tr>
+                        <td width="25%"><input type='checkbox' name='toppings[]' value='Pearl' id='Pearl'><label for='Pearl'>Pearl</label></td>
+                        <td width="25%"><input type='checkbox' name='toppings[]' value='Herbal Jelly' id='Herbal Jelly'><label for='Herbal Jelly'>Jelly</label></td>
+                        <td width="25%"><input type='checkbox' name='toppings[]' value='Nata de Coco' id='Nata de Coco'><label for='Nata de Coco'>	
+                        Rainbow Jelly</label></td>
+                        <td width="25%"><input type='checkbox' name='toppings[]' value='Aloe Vera'id='Aloe Vera'><label for='Aloe Vera'>Aloe Vera</label></td>
+            
+                    </tr>
+                   
+                    </table>
+                    <br>
+            
+                    <input type="reset" name="Reset">
+                    <input name='totalAmt' type='hidden' id='totalAmt' value = 3.5>
+                    <input name='cid' type='hidden' id='cid' value = 1>
+                    <input type='submit' value='Purchase'>
+                </form>
             <!-- <table>
                 <tr>
                 <th><h2 class="section-header">Drinks</h2></th>
@@ -61,10 +132,10 @@
                     </table>
                 </td></tr>
             
-            </table>
+            </table> -->
         
             
-            <table id='cart'>
+            <!-- <table id='cart'>
                 <thead class='thead-dark'>
                 <tr>
                     <th>Name</th>
@@ -73,12 +144,15 @@
                 </thead>
             </table> -->
             
+            <button onclick="myFunction('drink1')">Add Me</button>
 
-            <form id='payment' action='orderdetails.html' method ="POST">
+            <p id="demo"></p> -->
+
+            <!-- <form id='payment' action='orderdetails.html' method ="POST">
             <input name='totalAmt' type='hidden' id='totalAmt' value = 5>
             <input name='cid' type='hidden' id='cid' value = 1>
             <input type='submit' value='Purchase'>
-            </form>
+            </form> -->
         </section></div>
 
         <script>
@@ -93,7 +167,6 @@
                     .append("<label>" + message + "</label>");
             }
     
-            
             // getting drinks
             $(async () => {
                 // Change serviceURL to your own
@@ -118,7 +191,7 @@
                         for (const drink of drinks) {
                             eachRow =
                                 "<td>" + drink.name  + "</td>" +
-                                "<td>" + drink.price + "</td>"+
+                                "<td> $" + drink.price + "</td>"+
                                 "<td><button class='btn btn-primary shop-item-button' type='button'>ADD TO CART</button></td>";
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
@@ -158,8 +231,8 @@
                         for (const topping of toppings) {
                             eachRow =
                                 "<td>" + topping.name  + "</td>" +
-                                "<td>" + topping.price + "</td>"+
-                                "<td><button id='add' type='button' value='"+topping.name+"'>ADD TO CART</button></td>";
+                                "<td> $" + topping.price + "</td>"+
+                                "<td><button class='btn btn-primary shop-item-button' type='button'>ADD TO CART</button></td>";
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
                         // add all the rows to the table
@@ -174,10 +247,7 @@
                 } // error
             });
 
-            $('#add').on('click',function(){
-                    var r= $("drink1 ");
-                    $("cart").append(r);
-                });
+            
 
             $("#payment").submit(async (event) => {
             // event.preventDefault();

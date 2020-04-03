@@ -24,10 +24,8 @@
         <header class="main-header">
             <nav class="main-nav nav">
                 <ul>
-                    <li><a href="menu.html">MENU</a></li>
-                    <li><a href="locations.html">STORE OUTLETS</a></li>
-                    <li><a href="wallet.php">WALLET</a></li>
-                    <li><a href="notifications.php">NOTIFICATIONS</a></li>
+                    <li><a href="index.html">NOTIFICATIONS</a></li>
+                    <li><a href="orders.html">ORDERS</a></li>
                 </ul>
             </nav>
             <h1 class="store-name store-name-large">The Ultimate Bubble Tea Store</h1>
@@ -50,7 +48,7 @@
             </table>
         </div>
         <div id="sub-container" class="container">
-            <h1 class="display-4">Orders Confirmed</h1>
+            <h1 class="display-4">Orders Completed</h1>
             <table id="confirmTable" class='table table-striped' border='1'>
                 <thead class='thead-dark'>
                     <tr>
@@ -101,7 +99,7 @@
                         serviceURL, {
                         method: 'POST',
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ status : 'Confirmed'})
+                        body: JSON.stringify({ status : 'Pending'})
                     });
                     
                     const data = await response.json();
