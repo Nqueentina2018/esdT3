@@ -148,7 +148,7 @@ def processPayment(payment):
                         "orderid" : orderid,
                         "cid": cid, 
                         "price": orderAmount,
-                        "status" : "Confirmed" 
+                        "status" : "Pending" 
                         }
         # customerObject = json.dumps(customerObject) , dumps makes it into json string so try not to use
         requests.post(updateEwalletURL, json = customerObject)
@@ -156,7 +156,7 @@ def processPayment(payment):
         resultstatus = 200
         messagestatus = "Payment Successful!"
 
-    result = {'status': resultstatus, 'message' : messagestatus, 'object' : customerObject}
+    result = {'status': resultstatus, 'message' : messagestatus}
     return result 
 
 
