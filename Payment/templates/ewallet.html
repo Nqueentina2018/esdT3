@@ -8,7 +8,6 @@
 
     <title>E Wallet</title>
 
-    
     <link rel="stylesheet" href="">
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -41,13 +40,12 @@
 <body>
 
   <div class="container" id="main-container">
-    <form id="topup" action="topup" method="POST">
+    <form action="{127.0.0.1:5000/customer/updatewallet" method="POST">
         <div class="form-group row">
             <label for="topUpAmt" class="col-sm-2 col-form-label">Top Up Amount</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="topUpAmt" name="topUpAmt">
                 <input type="hidden" id="cid" name="cid" value = 1>
-            </form>
             </div>
         </div>  
     
@@ -59,46 +57,8 @@
           data-description="Top Up E Wallet Amount"
           data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
           data-locale="auto">
-          </script>
-
-          <script>
-          
-          $("#topup").submit(async (event) => {
-                      console.log("hiiii")
-                      event.preventDefault();
-                      var cid = $('cid').val();
-                      var topUpAmt = $('#topUpAmt').val();
-                      var serviceURL = "http://127.0.0.1:5000/updatewallet" ;
-                      // console.log(serviceURL);
-
-                      try {
-                          console.log(JSON.stringify({cid: cid ,topUpAmt : topUpAmt}))
-                          
-                          let response =
-                              await fetch(
-                                  serviceURL,
-                                  {
-                                      method: 'POST',
-                                      headers: { "Content-Type": "application/json"  }, 
-                                      body: JSON.stringify({cid : cid , newEwalletBalance : topUpAmt}),
-                                  });
-                          console.log(response)
-                          let data = await response.json();
-                          if (response.ok) {
-                              console.log(data);
-                              window.location.href = "paymenttest.html";
-                          }
-
-                      } catch (error) {
-                          // Errors when calling the service; such as network error, 
-                          // service offline, etc
-                          showError
-                              ('There is a problem retrieving books data, please try again later.<br />' + error);
-
-                      } // error
-                  });
         </script>
-
+      </form>
   </div>
 
 </body>

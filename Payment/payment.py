@@ -1,10 +1,9 @@
 from flask import Flask, jsonify, request, redirect, url_for, render_template
-from flask_cors import CORS, cross_origin
-from http.server import HTTPServer, SimpleHTTPRequestHandler, test
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app)
+
 
 import os
 import stripe
@@ -15,7 +14,6 @@ updateEwalletURL = "http://localhost:5000/customer/updatewallet"
 getEwalletUrl = "http://localhost:5000/customer/getewallet"
 newOrderURL = "http://localhost:5002/order/neworder"
 genIdURL = "http://localhost:5002/order/gen_id"
-topuppaymentURL="http://localhost:5003/payment/topuppayment"
 
 pub_key = 'pk_test_a4WmBvNzgsdxl168Wwu0aGde00kaznh0SL'
 secret_key = 'sk_test_n2Zbe1bhsIhVn7XCpYSIBSK600OHvj08YF'
@@ -66,7 +64,7 @@ def topuppayment():
                         "newEwalletBalance" : newEwalletBalance
                     }
     
-    requests.post(topuppaymentURL, json = customerObject)
+    requests.post(updateEwalletURL, json = customerObject)
     resultstatus = 200
     messagestatus = "Top-up Successful!"    
 
@@ -75,7 +73,6 @@ def topuppayment():
 
 
 @app.route('/payment', methods=['POST'])
-@cross_origin()
 def receiveOrder():
     #check if the order contains valid JSON
 
