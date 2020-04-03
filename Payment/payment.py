@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request, redirect, url_for, render_template
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 import os
 import stripe
@@ -48,22 +48,28 @@ def topuppayment():
         currency='sgd',
         description="E-Wallet top up"
     )
+    #return charge
     
     #Successful payment process 
     #1. Retrive customer id and ewallet balance
     #2. Retrive topup amount from charge
-    cid = customerDetailsfromUI['cid']
-    currentEwalletBalance = customerDetailsfromUI['eWallet']     
-    topupAmt = charge['amount']/100
+        #cid = customerDetailsfromUI['cid']
+        #currentEwalletBalance = customerDetailsfromUI['eWallet']     
+    cid = request.form['cid']
+    currentEwalletBalance = float(request.form['ewalletBalance'])
+    topupAmt = charge['amount'] /100
 
-    #Add the topup amount to current ewallet balance
+    
+
+    # Add the topup amount to current ewallet balance
     newEwalletBalance = currentEwalletBalance + topupAmt
-
+    
     customerObject = {
                         "cid": cid, 
                         "newEwalletBalance" : newEwalletBalance
                     }
     
+
     requests.post(updateEwalletURL, json = customerObject)
     resultstatus = 200
     messagestatus = "Top-up Successful!"    
@@ -73,13 +79,26 @@ def topuppayment():
 
 
 @app.route('/payment', methods=['POST'])
+# @cross_origin
+# def application(environ, start_response):
+#   if environ['REQUEST_METHOD'] == 'OPTIONS':
+#     start_response(
+#       '200 OK',
+#       [
+#         ('Content-Type', 'application/json'),
+#         ('Access-Control-Allow-Origin', '*'),
+#         ('Access-Control-Allow-Headers', 'Authorization, Content-Type'),
+#         ('Access-Control-Allow-Methods', 'POST'),
+#       ]
+#     )
+#     return ''
+
 def receiveOrder():
     #check if the order contains valid JSON
 
     payment = None
     if request.get_json():
         payment = request.get_json()
-        return payment
     else:
         payment = request.get_data()
         print("Received an invalid order:")
@@ -97,25 +116,24 @@ def receiveOrder():
 def processPayment(payment):
     #UI is sending sending storeid, ewallet balance, order amount and customer id
     # get ewallet balance from cid
-    cid = payment['cid']
-    orderAmount = payment['totalAmt']
-    sid = payment['sid']
+    cid = int(payment['cid'])
+    orderAmount = float(payment['totalAmt'])
 
     response=requests.post(getEwalletUrl, json = {'cid' : cid})
     data = response.json()
-    ewalletBalance = data['ewallet']
+    ewalletBalance = float(data['ewallet'])
 
     response1=requests.get(genIdURL)
     data1 = response1.json()
-    orderid = data1['orderid']
+    orderid = int(data1['orderid'])
 
     #Check if the balance is enough to pay
-    if ewalletBalance < orderAmount:
+    if float(ewalletBalance) < float(orderAmount):
         resultstatus = 501
         messagestatus = "Insufficient E-Wallet Balance! Please top-up."
 
     else:
-        newEwalletBalance = ewalletBalance - orderAmount
+        newEwalletBalance = float(ewalletBalance) - float(orderAmount)
         customerObject = {
                         "cid": cid, 
                         "newEwalletBalance" : newEwalletBalance,
@@ -124,7 +142,6 @@ def processPayment(payment):
         orderObject = {
                         "orderid" : orderid,
                         "cid": cid, 
-                        "storeid": sid,
                         "price": orderAmount,
                         "status" : "Confirmed" 
                         }
