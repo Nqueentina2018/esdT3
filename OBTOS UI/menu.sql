@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `name` varchar(64) NOT NULL,
   `image` char(13) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  -- `category` varchar(64) NOT NULL,
+  `category` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -44,23 +44,22 @@ CREATE TABLE IF NOT EXISTS `menu` (
 -- Dumping data for table `menu`
 --
 
--- INSERT INTO `menu` (`id`, `name`, `image`, `price`, `category`) VALUES
--- (1, 'Belgian Chocolate Smoothie', '1.jpg', '4.50','drink'),
--- (2, 'Brown Sugar Milk Tea', '2.jpg', '3.40','drink'),
--- (3, 'Signature Milk Tea', '3.jpg', '2.80','drink'),
--- (4, 'Strawberry Cheese Tea', '4.jpg', '5.90','drink'),
--- (5, 'Pearls', '5.jpg', '0.60','topping'),
--- (6, 'Grass Jelly', '6.jpg', '0.70','topping'),
--- (7, 'Pudding', '', '0.70','topping');
--- COMMIT;
-
-INSERT INTO `menu` (`id`, `name`, `image`, `price`) VALUES
-(1, 'Brown Sugar Milk Tea', '1.jpg', '3.40'),
-(2, 'Signature Milk Tea', '2.jpg', '2.80'),
-(3, 'Strawberry Cheese Tea', '3.jpg', '5.90'),
-(4, 'Pearls', '4.jpg', '0.60'),
-(5, 'Grass Jelly', '5.jpg', '0.70');
+INSERT INTO `menu` (`id`, `name`, `image`, `price`, `category`) VALUES
+(1, 'Signature Milk Tea', '1.png', '2.80','drink'),
+(2, 'Brown Sugar Milk Tea', '2.png', '3.40','drink'),
+(3, 'Passionfruit Green Tea', '3.png', '2.80','drink'),
+(4, 'Brown Sugar Pearls', '4.jpg', '0.60','topping'),
+(5, 'Grass Jelly', '5.jpg', '0.70','topping'),
+(6, 'White Pearls', '6.jpg', '0.70','topping');
 COMMIT;
+
+-- INSERT INTO `menu` (`id`, `name`, `image`, `price`) VALUES
+-- (1, 'Brown Sugar Milk Tea', '1.jpg', '3.40'),
+-- (2, 'Signature Milk Tea', '2.jpg', '2.80'),
+-- (3, 'Strawberry Cheese Tea', '3.jpg', '5.90'),
+-- (4, 'Pearls', '4.jpg', '0.60'),
+-- (5, 'Grass Jelly', '5.jpg', '0.70');
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
