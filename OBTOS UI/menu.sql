@@ -48,9 +48,9 @@ INSERT INTO `menu` (`id`, `name`, `image`, `price`, `category`) VALUES
 (1, 'Signature Milk Tea', '1.png', '2.80','drink'),
 (2, 'Brown Sugar Milk Tea', '2.png', '3.40','drink'),
 (3, 'Passionfruit Green Tea', '3.png', '2.80','drink'),
-(4, 'Brown Sugar Pearls', '4.jpg', '0.60','topping'),
-(5, 'Grass Jelly', '5.jpg', '0.70','topping'),
-(6, 'White Pearls', '6.jpg', '0.70','topping');
+(4, 'Brown Sugar Pearls', '4.png', '0.60','topping'),
+(5, 'Grass Jelly', '5.png', '0.70','topping'),
+(6, 'White Pearls', '6.png', '0.70','topping');
 COMMIT;
 
 -- INSERT INTO `menu` (`id`, `name`, `image`, `price`) VALUES

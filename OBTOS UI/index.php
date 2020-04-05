@@ -172,13 +172,29 @@ if(isset($_GET["action"]))
 			</div>
 		</div>
 	</div>
-	<br />
+    <br />
+
+    </div>
+    <style>
+    .btn-purchase{
+        margin-left: 80%;
+        border-color: red;
+        background-color: white;
+        border-radius: 12px;
+        padding: 12px 28px;
+    }
+    .btn-purchase:hover {
+    background-color: red;
+    color: white;
+    }
+    </style>
 	<form id='payment' action='orderdetails.html' method ="POST">
             <input name='totalAmt' type='hidden' id='totalAmt' value = 5>
             <input name='cid' type='hidden' id='cid' value = 1>
-            <input type='submit' value='Purchase'>
+            <input type='submit' value='Purchase' class='btn-purchase'>
             </form>
         </section></div>
+
 
         <script>
             // Helper function to display error message

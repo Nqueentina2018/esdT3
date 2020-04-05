@@ -209,6 +209,19 @@ html, body {
     cursor: pointer;
 }
 
+.btn-purchase{
+    margin-left: 80%;
+    border-color: red;
+    background-color: white;
+    border-radius: 12px;
+    padding: 12px 28px;
+}
+
+.btn-purchase:hover {
+background-color: red;
+color: white;
+}
+
 .btn-header {
     margin: .5em 15% 2em 15%;
     color: white;
