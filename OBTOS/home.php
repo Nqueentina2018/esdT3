@@ -1,6 +1,63 @@
+<!-- Note: the items here are not sent to payment -->
+
+<?php 
+session_start();
+$connect = mysqli_connect("localhost", "root", "", "menu");
+$total = 0;
+if(isset($_POST["add_to_cart"]))
+{
+	if(isset($_SESSION["shopping_cart"]))
+	{
+		$item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
+		if(!in_array($_GET["id"], $item_array_id))
+		{
+			$count = count($_SESSION["shopping_cart"]);
+			$item_array = array(
+				'item_id'			=>	$_GET["id"],
+				'item_name'			=>	$_POST["hidden_name"],
+				'item_price'		=>	$_POST["hidden_price"],
+				'item_quantity'		=>	$_POST["quantity"]
+			);
+			$_SESSION["shopping_cart"][$count] = $item_array;
+		}
+		else
+		{
+			echo '<script>alert("Item Already Added")</script>';
+		}
+	}
+	else
+	{
+		$item_array = array(
+			'item_id'			=>	$_GET["id"],
+			'item_name'			=>	$_POST["hidden_name"],
+			'item_price'		=>	$_POST["hidden_price"],
+			'item_quantity'		=>	$_POST["quantity"]
+		);
+		$_SESSION["shopping_cart"][0] = $item_array;
+	}
+}
+
+if(isset($_GET["action"]))
+{
+	if($_GET["action"] == "delete")
+	{
+		foreach($_SESSION["shopping_cart"] as $keys => $values)
+		{
+			if($values["item_id"] == $_GET["id"])
+			{
+				unset($_SESSION["shopping_cart"][$keys]);
+				echo '<script>alert("Item Removed")</script>';
+				echo '<script>window.location="home.php"</script>';
+			}
+		}
+	}
+}
+
+?>
 <!DOCTYPE html>
 <html>
-    <head>
+	<head>
+	<head>
         <title>The Ultimate Bubble Tea | Store</title>
         <meta name="description" content="This is the description">
         <link rel="stylesheet" href="../include/styles.css" />
@@ -14,16 +71,9 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-
-        <script>
-            function myFunction(value) {
-                document.getElementById("demo").innerHTML = value;
-            }
-        </script>
     </head>
 
     <body>
-
         <header class="main-header">
             <nav class="main-nav nav">
                 <ul>
@@ -31,129 +81,120 @@
                     <li><a href="locations.html">STORE OUTLETS</a></li>
                     <li><a href="wallet.html">WALLET</a></li>
                     <li><a href="notifications.php">NOTIFICATIONS</a></li>
+                    <li><a href="../UI">EXIT</a></li>
                 </ul>
             </nav>
             <h1 class="store-name store-name-large">The Ultimate Bubble Tea Store</h1>
         </header>
-        <section class="container content-section">
-            <div id="main-container" class="container">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<br />
+		<div class="container">
+			<br />
+			<br />
+			<br />
 
-                <form id='payment' action='orderdetails.html' method ="POST">
-                    <table>
-                    <tr>
-                    <td colspan="4"><h3> Step 1: Select your Tea</h3></td>
-                    </tr>
-                    <tr>
-                    
-                    <td colspan="3"><STRONG> Tea Type</STRONG></td>
-                    <td><STRONG>Price</STRONG></td>
-            
-                    </tr>
-                    <tr>
-                        
-                        <td colspan="3" width="80%">
-                            <input type='radio' name='drinks' value='Ah Kong Original Milk Tea' id='Ah Kong Original Milk Tea'>
-                            <label for='Ah Kong Original Milk Tea'>Milk Tea</label></td>
-                        <td width="22%">$3.50</td>
-                        
-                    </tr>
-                    <tr>
-                        
-                        <td colspan="3">
-                            <input type='radio' name='drinks' value='Brown Sugar Green Tea Macchiato' id='Brown Sugar Green Tea Macchiato'>
-                            <label for='Brown Sugar Green Tea Macchiato'>Passion Fruit Yakult</label></td>
-                        <td>$3.80</td>
-                        
-                    </tr>
-                    <tr>
-                        
-                        <td colspan="3">
-                            <input type='radio' name='drinks' value='Earl Grey Milk Tea' id='Earl Grey Milk Tea'>
-                            <label for='Earl Grey Milk Tea'>Earl Grey Milk Tea</label></td>
-                        <td>$3.00</td>
-                    
-                    </tr>
-                    <tr>
-                        
-                        <td colspan="3">
-                            <input type='radio' name='drinks' value='Rainbow Milk Tea' id='Rainbow Milk Tea'>
-                            <label for='Rainbow Milk Tea'>Ginger Milk Tea</label></td>
-                        <td>$4.00</td>
-                        
-                    </tr>
-                    <tr>
-                    <td colspan="4"><h3>Step 2: Select Your Topping (Optional) </h3> <small>(Each Topping + additional 50ct)</small></td>
-                    </tr>
-                    <tr>
-                        <td width="25%"><input type='checkbox' name='toppings[]' value='Pearl' id='Pearl'><label for='Pearl'>Pearl</label></td>
-                        <td width="25%"><input type='checkbox' name='toppings[]' value='Herbal Jelly' id='Herbal Jelly'><label for='Herbal Jelly'>Jelly</label></td>
-                        <td width="25%"><input type='checkbox' name='toppings[]' value='Nata de Coco' id='Nata de Coco'><label for='Nata de Coco'>	
-                        Rainbow Jelly</label></td>
-                        <td width="25%"><input type='checkbox' name='toppings[]' value='Aloe Vera'id='Aloe Vera'><label for='Aloe Vera'>Aloe Vera</label></td>
-            
-                    </tr>
-                   
-                    </table>
-                    <br>
-            
-                    <input type="reset" name="Reset">
-                    <input name='totalAmt' type='hidden' id='totalAmt' value = 3.5>
-                    <input name='cid' type='hidden' id='cid' value = 1>
-                    <input type='submit' value='Purchase'>
-                </form>
-            <!-- <table>
-                <tr>
-                <th><h2 class="section-header">Drinks</h2></th>
-                <th><h2 class="section-header">TOPPINGS</h2></th>
-                </tr>
+			<?php
+				$query = "SELECT * FROM menu ORDER BY id ASC";
+				$result = mysqli_query($connect, $query);
+				if(mysqli_num_rows($result) > 0)
+				{
+					while($row = mysqli_fetch_array($result))
+					{
+				?>
+			<div class="col-md-4">
+				<form method="post" action="home.php?action=add&id=<?php echo $row["id"]; ?>">
+					<div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
+						<img src="images/<?php echo $row["image"]; ?>" class="img-responsive" /><br />
 
-                <tr>
-                <td>
-                    <table id="drinksTable" class='table table-striped' border='1'>
-                    <thead class='thead-dark'>
-                        <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Add</th>
-                        </tr>
-                    </thead>
-                    </table>
-                </td>
-                
-                <td>
-                    <table id="toppingsTable" class='table table-striped' border='1'>
-                    <thead class='thead-dark'>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Add</th>
-                    </tr>
-                    </thead>
-                    </table>
-                </td></tr>
-            
-            </table> -->
-        
-            
-            <!-- <table id='cart'>
-                <thead class='thead-dark'>
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                </tr>
-                </thead>
-            </table> -->
-            
-            <button onclick="myFunction('drink1')">Add Me</button>
+						<h4 class="text-info"><?php echo $row["name"]; ?></h4>
 
-            <p id="demo"></p> -->
+						<h4 class="text-danger">$ <?php echo $row["price"]; ?></h4>
 
-            <!-- <form id='payment' action='orderdetails.html' method ="POST">
-            <input name='totalAmt' type='hidden' id='totalAmt' value = 5>
+						<input type="text" name="quantity" value="1" class="form-control" />
+
+						<input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
+
+						<input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>" />
+
+						<input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
+
+					</div>
+				</form>
+			</div>
+			<?php
+					}
+				}
+			?>
+			<div style="clear:both"></div>
+			<br />
+			<h3>Order Details</h3>
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<tr>
+						<th width="40%">Item Name</th>
+						<th width="10%">Quantity</th>
+						<th width="20%">Price</th>
+						<th width="15%">Total</th>
+						<th width="5%">Action</th>
+					</tr>
+					<?php
+					if(!empty($_SESSION["shopping_cart"]))
+					{
+						$total = 0;
+						foreach($_SESSION["shopping_cart"] as $keys => $values)
+						{
+					?>
+					<tr>
+						<td><?php echo $values["item_name"]; ?></td>
+						<td><?php echo $values["item_quantity"]; ?></td>
+						<td>$ <?php echo $values["item_price"]; ?></td>
+						<td>$ <?php echo number_format($values["item_quantity"] * $values["item_price"], 2);?></td>
+						<td><a href="home.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span class="text-danger">Remove</span></a></td>
+					</tr>
+					<?php
+							$total = $total + ($values["item_quantity"] * $values["item_price"]);
+						}
+					?>
+					<tr>
+						<td colspan="3" align="right">Total</td>
+						<td align="right">$ <?php echo number_format($total, 2); ?></td>
+						<td></td>
+					</tr>
+					<?php
+					}
+					?>
+						
+				</table>
+			</div>
+		</div>
+	</div>
+    <br />
+
+    </div>
+    <style>
+    .btn-purchase{
+        margin-left: 80%;
+        border-color: red;
+        background-color: white;
+        border-radius: 12px;
+        padding: 12px 28px;
+    }
+    .btn-purchase:hover {
+    background-color: red;
+    color: white;
+    }
+    </style>
+	<form id='payment' action='loader.html' method ="POST">
+            <input name='totalAmt' type='hidden' id='totalAmt' value = <?php echo $total; ?>>
             <input name='cid' type='hidden' id='cid' value = 1>
-            <input type='submit' value='Purchase'>
-            </form> -->
+            <input type='submit' value='Purchase' class='btn-purchase'>
+            </form>
         </section></div>
+
 
         <script>
             // Helper function to display error message
@@ -167,6 +208,7 @@
                     .append("<label>" + message + "</label>");
             }
     
+            
             // getting drinks
             $(async () => {
                 // Change serviceURL to your own
@@ -191,7 +233,7 @@
                         for (const drink of drinks) {
                             eachRow =
                                 "<td>" + drink.name  + "</td>" +
-                                "<td> $" + drink.price + "</td>"+
+                                "<td>" + drink.price + "</td>"+
                                 "<td><button class='btn btn-primary shop-item-button' type='button'>ADD TO CART</button></td>";
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
@@ -231,8 +273,8 @@
                         for (const topping of toppings) {
                             eachRow =
                                 "<td>" + topping.name  + "</td>" +
-                                "<td> $" + topping.price + "</td>"+
-                                "<td><button class='btn btn-primary shop-item-button' type='button'>ADD TO CART</button></td>";
+                                "<td>" + topping.price + "</td>"+
+                                "<td><button id='add' type='button' value='"+topping.name+"'>ADD TO CART</button></td>";
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
                         // add all the rows to the table
@@ -247,7 +289,6 @@
                 } // error
             });
 
-            
 
             $("#payment").submit(async (event) => {
             // event.preventDefault();
@@ -266,13 +307,13 @@
                         {
                             method: 'POST',
                             headers: { "Content-Type": "application/json"  }, 
-                            body: JSON.stringify({cid : cid , sid : sid ,totalAmt : totalAmt}),
+                            body: JSON.stringify({cid : cid ,totalAmt : totalAmt}),
                         });
                 console.log(response)
                 let data = await response.json();
                 if (response.ok) {
                     console.log(data);
-                    window.location.href = "orderdetails.html";
+                    window.location.href = "loader.html";
                 }
 
             } catch (error) {
@@ -286,5 +327,20 @@
 
         </script>
         
-    </body>
+
+	</body>
 </html>
+
+<?php
+//If you have use Older PHP Version, Please Uncomment this function for removing error 
+
+/*function array_column($array, $column_name)
+{
+	$output = array();
+	foreach($array as $keys => $values)
+	{
+		$output[] = $values[$column_name];
+	}
+	return $output;
+}*/
+?>

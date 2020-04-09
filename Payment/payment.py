@@ -80,7 +80,7 @@ def topuppayment():
     messagestatus = "Top-up Successful!"    
 
     result = {'status': resultstatus, 'message' : messagestatus, 'object' : customerObject}
-    return redirect('http://localhost/esd/OBTOS%20UI/wallet.html')
+    return redirect('http://localhost/esd/OBTOS/wallet.html')
 
 
 @app.route('/payment', methods=['POST'])

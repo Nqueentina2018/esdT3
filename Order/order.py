@@ -40,14 +40,26 @@ def get_all():
 
 #working
 @app.route("/order" , methods = ['POST'] )
-def find_by_orderid():
-    data = request.get_json()
-    orderid= str(data['orderid'])
-    if (Order.query.filter_by(orderid=orderid).first()):
-        order = Order.query.filter_by(orderid=orderid).first()
+def get_last_order():
+    orders = Order.query.all()
+    if orders:
+        count = 0
+        for order in orders:
+            count += 1 
+    if (Order.query.filter_by(orderid=count).first()):
+        order = Order.query.filter_by(orderid=count).first()
         return jsonify(order.json())
 
     return jsonify({"message": "Order not found."}), 404
+
+@app.route("/orders" , methods = ['POST'] )
+def get_orders_byid():
+    data = request.get_json()
+    cid= int(data['cid'])
+    if (Order.query.filter_by(cid=cid).all()):
+        orders = Order.query.filter_by(cid=cid).all()
+        return jsonify({"orders": [order.json() for order in orders]})
+    return jsonify({"message": "Orders not found."}), 404
 
 #working
 @app.route("/order/neworder" , methods = ['POST'] )

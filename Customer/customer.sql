@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 09, 2020 at 07:53 AM
+-- Generation Time: Apr 09, 2020 at 07:54 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -19,32 +19,30 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `order`
+-- Database: `customer`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Table structure for table `customer`
 --
 
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE IF NOT EXISTS `order` (
-  `orderid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `customer`;
+CREATE TABLE IF NOT EXISTS `customer` (
   `cid` int(11) NOT NULL,
-  `status` varchar(15) NOT NULL,
-  `price` double NOT NULL,
-  PRIMARY KEY (`orderid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `name` varchar(15) NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  `ewallet` double NOT NULL,
+  PRIMARY KEY (`cid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `order`
+-- Dumping data for table `customer`
 --
 
-INSERT INTO `order` (`orderid`, `cid`, `status`, `price`) VALUES
-(1, 1, 'Completed', 20),
-(2, 1, 'Completed', 10),
-(3, 1, 'Pending', 7.5);
+INSERT INTO `customer` (`cid`, `name`, `phone`, `ewallet`) VALUES
+(1, 'Tiffany TAN', '91234567', 42.5);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

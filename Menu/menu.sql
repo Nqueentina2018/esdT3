@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 14, 2019 at 06:42 AM
--- Server version: 5.7.19
--- PHP Version: 7.1.9
+-- Generation Time: Apr 09, 2020 at 07:55 AM
+-- Server version: 5.7.23
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `menu`
 --
-CREATE DATABASE IF NOT EXISTS `menu` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `menu`;
 
 -- --------------------------------------------------------
 
@@ -32,26 +30,25 @@ USE `menu`;
 
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
+  `id` char(13) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `menuID` char(13) NOT NULL,
+  `image` char(13) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `category` varchar(64) NOT NULL,
-  PRIMARY KEY (`menuID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menu`
 --
 
-INSERT INTO `menu` (`name`, `menuID`, `price`, `category`) VALUES
-('Milk Tea', 'D1', '3.00','drink'),
-('Passion Fruit Yakult', 'D2', '3.50','drink'),
-('Earl Grey Milk Tea', 'D3', '3.20','drink'),
-('Ginger Milk Tea', 'D3', '3.20','drink'),
-('Pearl', 'T1', '0.30','topping'),
-('Jelly', 'T2', '0.30','topping'),
-('Rainbow Jelly', 'T3', '0.30','topping'),
-('Aloe Vera', 'T4', '0.30','topping');
+INSERT INTO `menu` (`id`, `name`, `image`, `price`, `category`) VALUES
+('1', 'Signature Milk Tea', '1.png', '2.80', 'drink'),
+('2', 'Brown Sugar Milk Tea', '2.png', '3.40', 'drink'),
+('3', 'Passionfruit Green Tea', '3.png', '2.80', 'drink'),
+('4', 'Brown Sugar Pearls', '4.png', '0.50', 'topping'),
+('5', 'Grass Jelly', '5.png', '0.50', 'topping'),
+('6', 'White Pearls', '6.png', '0.50', 'topping');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
