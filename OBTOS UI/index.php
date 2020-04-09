@@ -189,7 +189,7 @@ if(isset($_GET["action"]))
     }
     </style>
 	<form id='payment' action='orderdetails.html' method ="POST">
-            <input name='totalAmt' type='hidden' id='totalAmt' value = 5>
+            <input name='totalAmt' type='hidden' id='totalAmt' value = <?= $total ?>>
             <input name='cid' type='hidden' id='cid' value = 1>
             <input type='submit' value='Purchase' class='btn-purchase'>
             </form>
