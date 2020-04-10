@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>The Ultimate Bubble Tea | Store</title>
+        <meta name="description" content="This is the description">
+        <link rel="stylesheet" href="../include/styles.css" />
+        <script src="store.js" async></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+        <meta http-equiv = "refresh" content = "8; url = orderdetails.html" />
+    </head>
+
+    <body>
+        <header class="main-header">
+            <nav class="main-nav nav">
+                <ul>
+                    <li><a href="home.php">MENU</a></li>
+                    <li><a href="locations.html">STORE OUTLETS</a></li>
+                    <li><a href="wallet.html">WALLET</a></li>
+                    <li><a href="notifications.php">NOTIFICATIONS</a></li>
+                </ul>
+            </nav>
+            <h1 class="store-name store-name-large">The Ultimate Bubble Tea Store</h1>
+        </header>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Center the loader */
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 } 
+    to { bottom:0px; opacity:1 }
+    }
+
+    @keyframes animatebottom { 
+    from{ bottom:-100px; opacity:0 } 
+    to{ bottom:0; opacity:1 }
+    }
+
+    #myDiv {
+    display: none;
+    text-align: center;
+    }
+</style>
+</head>
+
+
+<body onload="myFunction()" style="margin:0;">
+
+<div id="loader">
+     <object align="middle"><p>processing</p></object> 
+</div>
+
+<div style="display:none;" id="myDiv" class="animate-bottom">
+
+</div>
+
+<script>
+    var myVar;
+
+    function myFunction() {
+    myVar = setTimeout(showPage, 8000);
+    }
+
+    function showPage() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("myDiv").style.display = "block";
+    }
+
+</script>
+
+</body>
+</html>
