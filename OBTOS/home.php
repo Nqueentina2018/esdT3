@@ -2,7 +2,7 @@
 
 <?php 
 session_start();
-$connect = mysqli_connect("localhost", "root", "", "files to load");
+$connect = mysqli_connect("localhost", "root", "", "menu");
 $total = 0;
 if(isset($_POST["add_to_cart"]))
 {
