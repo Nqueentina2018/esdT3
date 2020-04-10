@@ -10,6 +10,8 @@ import stripe
 import requests
 import json
 
+import pika
+
 updateEwalletURL = "http://localhost:5000/customer/updatewallet"
 getEwalletUrl = "http://localhost:5000/customer/getewallet"
 newOrderURL = "http://localhost:5002/order/neworder"

@@ -2,7 +2,7 @@
 
 <?php 
 session_start();
-$connect = mysqli_connect("localhost", "root", "", "menu");
+$connect = mysqli_connect("localhost", "root", "", "files to load");
 $total = 0;
 if(isset($_POST["add_to_cart"]))
 {
@@ -77,7 +77,7 @@ if(isset($_GET["action"]))
         <header class="main-header">
             <nav class="main-nav nav">
                 <ul>
-                    <li><a href="menu.html">MENU</a></li>
+                    <li><a href="home.php">MENU</a></li>
                     <li><a href="locations.html">STORE OUTLETS</a></li>
                     <li><a href="wallet.html">WALLET</a></li>
                     <li><a href="notifications.php">NOTIFICATIONS</a></li>
