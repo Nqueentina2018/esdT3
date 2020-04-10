@@ -10,8 +10,6 @@ import stripe
 import requests
 import json
 
-import pika
-
 updateEwalletURL = "http://localhost:5000/customer/updatewallet"
 getEwalletUrl = "http://localhost:5000/customer/getewallet"
 newOrderURL = "http://localhost:5002/order/neworder"
@@ -164,3 +162,18 @@ def processPayment(payment):
 
 if __name__ == '__main__':
     app.run(debug=True, port=5003)
+
+
+# TRIAL FOR AMQP
+
+import pika
+
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host='localhost'))
+channel = connection.channel()
+
+channel.queue_declare(queue='hello')
+
+channel.basic_publish(exchange='', routing_key='hello', body='Topup Successful!')
+print(" [x] Sent 'Topup Successful!'")
+connection.close()
